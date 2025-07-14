@@ -84,7 +84,7 @@ $new_candidates = $pdo->query("
         </div>
         <div class="profile" onclick="toggleDropdown()">
             <div class="profile-texts">
-                <span class="profile-name">Admin</span>
+                <span class="profile-name">Admin Naur</span>
                 <span class="profile-subtext">Maverick Studio</span>
             </div>
             <img src="https://images.unsplash.com/photo-1529778873920-4da4926a72c2?fm=jpg&q=60&w=3000" alt="Admin" class="profile-img" />

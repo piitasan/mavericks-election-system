@@ -27,7 +27,10 @@ $parties = $pdo->query("SELECT * FROM partylist_tbl WHERE deleted_at IS NULL")->
 
 <!DOCTYPE html>
 <html>
-<head><title>Party Maintenance</title></head>
+<head>
+    <title>Party Maintenance</title>
+    <link rel="stylesheet" href="party_maintenance.css" />
+</head>
 <body>
     <h2>Party Maintenance</h2>
     <form method="POST">

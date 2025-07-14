@@ -1,35 +1,26 @@
-/* Admin Style CSS for Login Page */
 body {
-    font-family: Arial, sans-serif;
     background: #f3f4f6;
-    margin: 0;
-    padding: 0;
+    padding: 60px, 30px, 100px;
 }
 
-.login-container {
-    max-width: 400px;
-    margin: 80px auto;
+h2, h3{
+    color: #1e40af;
+    margin-bottom: 20px;
+}
+form {
     background: white;
     padding: 30px;
     border-radius: 8px;
     box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-    text-align: center;
-}
 
-h2 {
-    margin-bottom: 20px;
-    color: #1e40af;
 }
-
 label {
     display: block;
-    text-align: left;
     margin-bottom: 5px;
     font-weight: bold;
-}
 
-input[type="text"],
-input[type="password"] {
+}
+input[type="text"]{
     width: 100%;
     padding: 8px;
     margin-bottom: 15px;
@@ -37,7 +28,7 @@ input[type="password"] {
     border-radius: 4px;
 }
 
-button {
+button{
     background: #1e40af;
     color: white;
     padding: 10px 20px;
@@ -45,25 +36,44 @@ button {
     border-radius: 4px;
     cursor: pointer;
 }
-
 button:hover {
     background: #3749b1;
 }
 
-.error {
-    color: red;
-    margin-bottom: 15px;
+table{
+    width: 100%;
+    border-collapse: collapse;
+    border-radius: 8px;
+    overflow: hidden;
 }
 
-.links {
-    margin-top: 15px;
+th, td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
 }
 
-.links a {
+th {
+    background: #1e40af;
+    color: white;
+}
+
+td, a{
     color: #1e40af;
     text-decoration: none;
 }
 
-.links a:hover {
+td a:hover {
     text-decoration: underline;
+}
+
+a.back-link {
+    color: #1e40af;
+    text-decoration: none;
+    font-weight: bold;
+    display: inline-block;
+}
+
+a.back-link:hover {
+    color: #2563eb;
 }

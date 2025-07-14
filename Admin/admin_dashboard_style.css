@@ -452,7 +452,7 @@ body {
     padding: 20px;
     border-radius: 8px;
     box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-    grid-column: 1 / -1; /* Full width */
+    grid-column: 1 / -1;
     margin-top: 20px;
 }
 
@@ -530,7 +530,7 @@ body {
 }
 
 .notification-block.active ul {
-  max-height: 500px; /* Adjust as needed */
+  max-height: 500px;
   padding: 10px;
 }
 
@@ -568,7 +568,6 @@ body {
   margin-top: 2px;
 }
 
-/* Summary section styling */
 .summary-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(175px, 2fr));
@@ -582,7 +581,7 @@ body {
   background: #fff;
   padding: 32px;
   width: 100%;
-  max-width: 250px; /* Adjust as needed */
+  max-width: 250px;
   box-shadow: 0 2px 5px rgba(0,0,0,0.1);
   border-radius: 8px;
   text-align: center;

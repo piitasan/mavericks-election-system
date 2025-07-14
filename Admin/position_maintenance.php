@@ -11,6 +11,11 @@ if (isset($_POST['add_position'])) {
     $position_name = $_POST['position_name'];
     $stmt = $pdo->prepare("INSERT INTO position_tbl (position_name) VALUES (:position_name)");
     $stmt->execute(['position_name' => $position_name]);
+
+    $action = "Added a New Position: $position_name";
+    $stmt = $pdo->prepare("INSERT INTO system_logs (admin_id, action) VALUES (?, ?)");
+    $stmt->execute([$_SESSION['admin_id'], $action]);
+
     header("Location: position_maintenance.php");
     exit;
 }

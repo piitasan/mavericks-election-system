@@ -8,73 +8,73 @@ if (!isset($_SESSION['admin_id'])) {
     exit;
 }
 
-$new_students = $pdo->query("
+function getRecentRows($pdo, $sql) {
+    return $pdo->query($sql)->fetchAll();
+}
+
+function getCount($pdo, $sql) {
+    return $pdo->query($sql)->fetchColumn();
+}
+
+$new_students = getRecentRows($pdo, "
     SELECT student_id, created_at
     FROM user_tbl
     WHERE role = 'student'
     ORDER BY created_at DESC
     LIMIT 5
-")->fetchAll();
+");
 
-$new_votes = $pdo->query("
+$new_votes = getRecentRows($pdo, "
     SELECT u.student_id, v.created_at
     FROM vote_tbl v
     JOIN user_tbl u ON v.user_id = u.user_id
     ORDER BY v.created_at DESC
     LIMIT 5
-")->fetchAll();
+");
 
-$new_partylists = $pdo->query("
+$new_partylists = getRecentRows($pdo, "
     SELECT partylist_name, created_at
     FROM partylist_tbl
     ORDER BY created_at DESC
     LIMIT 5
-")->fetchAll();
+");
 
-$deleted_partylists = $pdo->query("
+$deleted_partylists = getRecentRows($pdo, "
     SELECT partylist_name, deleted_at
     FROM partylist_tbl
     WHERE deleted_at IS NOT NULL
     ORDER BY deleted_at DESC
     LIMIT 5
-")->fetchAll();
+");
 
-$new_candidates = $pdo->query("
+$new_candidates = getRecentRows($pdo, "
     SELECT full_name, created_at
     FROM candidate_tbl
     ORDER BY created_at DESC
     LIMIT 5
-")->fetchAll();
+");
+
+$total_students = getCount($pdo, "SELECT COUNT(*) FROM user_tbl WHERE role = 'student'");
+$total_candidates = getCount($pdo, "SELECT COUNT(*) FROM candidate_tbl");
+$total_votes = getCount($pdo, "SELECT COUNT(*) FROM vote_tbl");
+$total_partylists = getCount($pdo, "SELECT COUNT(*) FROM partylist_tbl WHERE deleted_at IS NULL");
+
+$logs = getRecentRows($pdo, "
+    SELECT action, created_at
+    FROM system_logs
+    ORDER BY created_at DESC
+    LIMIT 5
+");
+
 ?>
 
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>Admin Dashboard</title>
-    <link rel="stylesheet" href="admin_dashboard_style.css" />
-    <script>
-        function toggleDropdown() {
-            document.getElementById("profileDropdown").classList.toggle("show");
-        }
-
-        function toggleSidebar() {
-            document.querySelector(".sidebar").classList.toggle("active");
-        }
-
-        window.onclick = function(event) {
-            if (!event.target.matches('.profile-img')) {
-                var dropdowns = document.getElementsByClassName("dropdown-content");
-                for (let i = 0; i < dropdowns.length; i++) {
-                    let openDropdown = dropdowns[i];
-                    if (openDropdown.classList.contains('show')) {
-                        openDropdown.classList.remove('show');
-                    }
-                }
-            }
-        }
-    </script>
+    <link rel="stylesheet" href="admin_dashboard_style.css"/>
 </head>
 <body>
     <nav class="navbar">
@@ -137,64 +137,100 @@ $new_candidates = $pdo->query("
         </div>
     </div>
 
-    <div class="content">
-        <h2>Notifications</h2>
+        <main class="content">
+        <section class="notifications-section card">
+        <h2>📢 Notifications</h2>
 
-        <div class="card">
+        <div class="notification-block">
             <h3>New Student Registrations</h3>
             <ul>
-                <?php foreach ($new_students as $s): ?>
-                    <li><?= htmlspecialchars($s['student_id']) ?> - <?= $s['created_at'] ?></li>
-                <?php endforeach; ?>
+            <?php foreach ($new_students as $s): ?>
+                <li><strong>ID:</strong> <?= htmlspecialchars($s['student_id']) ?> <span class="date"><?= $s['created_at'] ?></span></li>
+            <?php endforeach; ?>
             </ul>
         </div>
 
-        <div class="card">
+        <div class="notification-block">
             <h3>Recent Votes</h3>
             <ul>
-                <?php foreach ($new_votes as $v): ?>
-                    <li>Student ID: <?= htmlspecialchars($v['student_id']) ?> - <?= $v['created_at'] ?></li>
-                <?php endforeach; ?>
+            <?php foreach ($new_votes as $v): ?>
+                <li><strong>ID:</strong> <?= htmlspecialchars($v['student_id']) ?> <span class="date"><?= $v['created_at'] ?></span></li>
+            <?php endforeach; ?>
             </ul>
         </div>
 
-        <div class="card">
+        <div class="notification-block">
             <h3>New Party Lists</h3>
             <ul>
-                <?php foreach ($new_partylists as $p): ?>
-                    <li><?= htmlspecialchars($p['partylist_name']) ?> - <?= $p['created_at'] ?></li>
-                <?php endforeach; ?>
+            <?php foreach ($new_partylists as $p): ?>
+                <li><?= htmlspecialchars($p['partylist_name']) ?> <span class="date"><?= $p['created_at'] ?></span></li>
+            <?php endforeach; ?>
             </ul>
         </div>
 
-        <div class="card">
+        <div class="notification-block">
             <h3>Deleted Party Lists</h3>
             <ul>
-                <?php if (count($deleted_partylists) > 0): ?>
-                    <?php foreach ($deleted_partylists as $dp): ?>
-                        <li><?= htmlspecialchars($dp['partylist_name']) ?> - Deleted at <?= $dp['deleted_at'] ?></li>
-                    <?php endforeach; ?>
-                <?php else: ?>
-                    <li>No deleted party lists.</li>
-                <?php endif; ?>
+            <?php if (count($deleted_partylists) > 0): ?>
+                <?php foreach ($deleted_partylists as $dp): ?>
+                <li><?= htmlspecialchars($dp['partylist_name']) ?> <span class="date">Deleted at <?= $dp['deleted_at'] ?></span></li>
+                <?php endforeach; ?>
+            <?php else: ?>
+                <li>No deleted party lists.</li>
+            <?php endif; ?>
             </ul>
         </div>
 
-        <div class="card">
+        <div class="notification-block">
             <h3>New Candidates</h3>
             <ul>
-                <?php foreach ($new_candidates as $c): ?>
-                    <li><?= htmlspecialchars($c['full_name']) ?> - <?= $c['created_at'] ?></li>
-                <?php endforeach; ?>
+            <?php foreach ($new_candidates as $c): ?>
+                <li><?= htmlspecialchars($c['full_name']) ?> <span class="date"><?= $c['created_at'] ?></span></li>
+            <?php endforeach; ?>
             </ul>
         </div>
-    </div>
+        </section>
+
+        <section class="summary-section card">
+        <h2>📊 Summary</h2>
+        <div class="summary-grid">
+            <div class="summary-card">
+            <h3>Total Students</h3>
+            <p><?= $total_students ?></p>
+            </div>
+            <div class="summary-card">
+            <h3>Total Candidates</h3>
+            <p><?= $total_candidates ?></p>
+            </div>
+            <div class="summary-card">
+            <h3>Total Votes</h3>
+            <p><?= $total_votes ?></p>
+            </div>
+            <div class="summary-card">
+            <h3>Active Party Lists</h3>
+            <p><?= $total_partylists ?></p>
+            </div>
+        </div>
+        </section>
+
+        <section class="system-logs card">
+        <h2>📝 System Logs</h2>
+        <ul>
+            <?php if (count($logs) > 0): ?>
+            <?php foreach ($logs as $log): ?>
+                <li><span class="date">[<?= $log['created_at'] ?>]</span> <?= htmlspecialchars($log['action']) ?></li>
+            <?php endforeach; ?>
+            <?php else: ?>
+            <li>No recent activity logs.</li>
+            <?php endif; ?>
+        </ul>
+        </section>
+    </main>
 
     <footer class="footer">
         <p>&copy; <?= date('Y') ?> Driven By Maverick Studio. All rights reserved.</p>
-        <div class="system_version">
-            <small>Version: <?= SYSTEM_VERSION ?></small>
-        </div>
+        <small>Version: <?= SYSTEM_VERSION ?></small>
     </footer>
+    <script src="admin_dashboard_script.js"></script>
 </body>
 </html>

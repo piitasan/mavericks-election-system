@@ -1,6 +1,7 @@
 <?php
 session_start();
 require 'db_connect.php';
+
 if (!isset($_SESSION['admin_id'])) {
     header("Location: admin_login.php");
     exit;
@@ -8,22 +9,38 @@ if (!isset($_SESSION['admin_id'])) {
 
 if (isset($_POST['add'])) {
     $partylist_name = $_POST['partylist_name'];
+
     $stmt = $pdo->prepare("INSERT INTO partylist_tbl (partylist_name) VALUES (:partylist_name)");
     $stmt->execute(['partylist_name' => $partylist_name]);
+
+    $action = "Added a New Partylist: $partylist_name";
+    $stmt = $pdo->prepare("INSERT INTO system_logs (admin_id, action) VALUES (?, ?)");
+    $stmt->execute([$_SESSION['admin_id'], $action]);
 }
 
 if (isset($_GET['delete'])) {
     $id = $_GET['delete'];
+
     if ($id) {
+        $stmt = $pdo->prepare("SELECT partylist_name FROM partylist_tbl WHERE partylist_id = :id");
+        $stmt->execute(['id' => $id]);
+        $partylist = $stmt->fetch();
+
         $stmt = $pdo->prepare("UPDATE partylist_tbl SET deleted_at = NOW() WHERE partylist_id = :id");
         $stmt->execute(['id' => $id]);
+
+        if ($partylist) {
+            $action = "Deleted Partylist: " . $partylist['partylist_name'];
+            $stmt = $pdo->prepare("INSERT INTO system_logs (admin_id, action) VALUES (?, ?)");
+            $stmt->execute([$_SESSION['admin_id'], $action]);
+        }
     }
+
     header("Location: party_maintenance.php");
     exit;
 }
-
-$parties = $pdo->query("SELECT * FROM partylist_tbl WHERE deleted_at IS NULL")->fetchAll();
 ?>
+
 
 <!DOCTYPE html>
 <html>

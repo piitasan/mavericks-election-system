@@ -18,6 +18,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         if ($admin && password_verify($password, $admin['password'])) {
             $_SESSION['admin_id'] = $admin['user_id'];
+
+            $action = "Logged In";
+            $stmtLog = $pdo->prepare("INSERT INTO system_logs (admin_id, action) VALUES (?, ?)");
+            $stmtLog->execute([$_SESSION['admin_id'], $action]);
+
             header("Location: admin_dashboard.php");
             exit;
         } else {

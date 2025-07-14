@@ -1,6 +1,7 @@
 <?php
 session_start();
 require 'db_connect.php';
+
 if (!isset($_SESSION['admin_id'])) {
     header("Location: admin_login.php");
     exit;
@@ -12,24 +13,43 @@ if (isset($_POST['add'])) {
     $partylist_id = $_POST['partylist_id'];
     $election_id = $_POST['election_id'];
 
-    $stmt = $pdo->prepare("INSERT INTO candidate_tbl (full_name, position_id, partylist_id, election_id) VALUES (:full_name, :position_id, :partylist_id, :election_id)");
+    $stmt = $pdo->prepare("INSERT INTO candidate_tbl (full_name, position_id, partylist_id, election_id)
+                           VALUES (:full_name, :position_id, :partylist_id, :election_id)");
     $stmt->execute([
         'full_name' => $full_name,
         'position_id' => $position_id,
         'partylist_id' => $partylist_id,
         'election_id' => $election_id
     ]);
+
+    $action = "Added a New Candidate: $full_name";
+    $stmt = $pdo->prepare("INSERT INTO system_logs (admin_id, action) VALUES (?, ?)");
+    $stmt->execute([$_SESSION['admin_id'], $action]);
 }
 
 if (isset($_GET['delete'])) {
     $id = $_GET['delete'];
+
+    $stmt = $pdo->prepare("SELECT full_name FROM candidate_tbl WHERE candidate_id = :id");
+    $stmt->execute(['id' => $id]);
+    $candidate = $stmt->fetch();
+
     $stmt = $pdo->prepare("DELETE FROM candidate_tbl WHERE candidate_id = :id");
     $stmt->execute(['id' => $id]);
+
+    if ($candidate) {
+        $action = "Deleted Candidate: " . $candidate['full_name'];
+        $stmt = $pdo->prepare("INSERT INTO system_logs (admin_id, action) VALUES (?, ?)");
+        $stmt->execute([$_SESSION['admin_id'], $action]);
+    }
 }
 
-$candidates = $pdo->query("SELECT c.*, p.position_name, pl.partylist_name FROM candidate_tbl c
-JOIN position_tbl p ON c.position_id = p.position_id
-JOIN partylist_tbl pl ON c.partylist_id = pl.partylist_id")->fetchAll();
+$candidates = $pdo->query("
+    SELECT c.*, p.position_name, pl.partylist_name
+    FROM candidate_tbl c
+    JOIN position_tbl p ON c.position_id = p.position_id
+    JOIN partylist_tbl pl ON c.partylist_id = pl.partylist_id
+")->fetchAll();
 
 $positions = $pdo->query("SELECT * FROM position_tbl")->fetchAll();
 $partylists = $pdo->query("SELECT * FROM partylist_tbl")->fetchAll();

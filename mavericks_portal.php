@@ -11,7 +11,7 @@
 
         <div class="button-group">
             <a class="btn" href="student/student_login.php">Login as Student</a>
-            <a class="btn" href="admin/admin_login.php">testing</a>
+            <a class="btn" href="admin/admin_login.php">Login as Admin</a>
         </div>
     </div>
 </body>

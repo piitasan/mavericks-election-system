@@ -29,7 +29,7 @@ $parties = $pdo->query("SELECT * FROM partylist_tbl WHERE deleted_at IS NULL")->
 <html>
 <head>
     <title>Party Maintenance</title>
-    <link rel="stylesheet" href="party_maintenance.css" />
+    <link rel="stylesheet" href="party_maintenance.css"/>
 </head>
 <body>
     <h2>Party Maintenance</h2>

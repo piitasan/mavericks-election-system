@@ -67,11 +67,11 @@ $logs = getRecentRows($pdo, "
 ");
 
 $top_candidates = getRecentRows($pdo, "
-    SELECT c.full_name, p.position_name, COUNT(v.vote_id) AS vote_count
+    SELECT c.full_name, p.partylist_name, COUNT(v.vote_id) AS vote_count
     FROM vote_tbl v
     JOIN candidate_tbl c ON v.candidate_id = c.candidate_id
-    JOIN position_tbl p ON c.position_id = p.position_id
-    GROUP BY c.candidate_id, c.full_name, p.position_name
+    JOIN partylist_tbl p ON c.partylist_id = p.partylist_id
+    GROUP BY c.candidate_id, c.full_name, p.partylist_name
     ORDER BY vote_count DESC
     LIMIT 8
 ");
@@ -274,7 +274,7 @@ $active_election = getRecentRows($pdo, "
                 <?php foreach ($top_candidates as $c): ?>
                     <li>
                         <strong><?= htmlspecialchars($c['full_name']) ?></strong> 
-                        (<?= $c['position_name'] ?>) - 
+                        (<?= $c['partylist_name'] ?>) - 
                         <span class="votes"><?= $c['vote_count'] ?> votes</span>
                     </li>
                 <?php endforeach; ?>

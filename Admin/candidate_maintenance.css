@@ -73,8 +73,8 @@ main.content {
     color: white;
     margin-right: 15px;
     cursor: pointer;
-    padding: 0; /* Reset default button padding */
-    line-height: 1; /* Ensure icon height does not stretch container */
+    padding: 0; 
+    line-height: 1;
 }
 
 .navbar-title {
@@ -218,7 +218,7 @@ main.content {
 
 .candidate-form h2 {
     text-align: center;
-    margin-bottom: 20px;
+    margin-bottom: 15px;
     color: #004b8d;
 }
 
@@ -232,14 +232,14 @@ main.content {
 .candidate-form input[type="text"],
 .candidate-form select {
     width: 100%;
-    padding: 8px;
+    padding: 5px;
     border: 1px solid #99c2e6;
     border-radius: 4px;
 }
 
 .candidate-form button {
     width: 100%;
-    padding: 10px;
+    padding: 5px;
     background-color: #007acc;
     color: white;
     border: none;
@@ -252,6 +252,54 @@ main.content {
 
 .candidate-form button:hover {
     background-color: #005fa3;
+}
+
+.candidate-form input[type="text"],
+.candidate-form select {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 10px;
+    margin: 5px 0 15px 0;
+    border: 2px solid #ccc;
+    border-radius: 5px;
+    font-size: 1em;
+    height: 42px; 
+}
+
+.candidate-form input[type="text"]:focus,
+.candidate-form select:focus {
+    border-color: #0066cc;
+    box-shadow: 0 0 5px rgba(0, 102, 204, 0.5);
+    outline: none;
+}
+
+.candidate-form select {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    background: url('data:image/svg+xml;utf8,<svg fill="gray" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/></svg>') no-repeat right 10px center/16px;
+    background-color: #fff;
+    cursor: pointer;
+    position: relative;
+}
+
+.candidate-form select:focus {
+    background-image: url('data:image/svg+xml;utf8,<svg fill="%230066cc" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M7 14l5-5 5 5z"/></svg>');
+}
+
+
+.candidate-form button[type="submit"] {
+    background-color: #0066cc;
+    color: white;
+    border: none;
+    padding: 15px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.candidate-form button[type="submit"]:hover {
+    background-color: #004999;
 }
 
 

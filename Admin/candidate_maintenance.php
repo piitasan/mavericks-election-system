@@ -197,7 +197,7 @@ $elections = $pdo->query("SELECT * FROM election_tbl")->fetchAll();
                     <?php if (isset($errors['full_name'])): ?>
                         <p style="color:red;"><?= $errors['full_name']; ?></p>
                     <?php endif; ?>
-
+                        
                     <label>Position:</label>
                     <select name="position_id">
                         <option value="" disabled selected>Select Position</option>
@@ -308,7 +308,17 @@ $elections = $pdo->query("SELECT * FROM election_tbl")->fetchAll();
     <footer class="footer">
         <p>&copy; <?= date('Y') ?> Driven By Maverick Studio. All rights reserved.</p>
         <small>Version: <?= SYSTEM_VERSION ?></small>
-    </footer>
-    <script src="admin_dashboard_script.js"></script>
+        </footer>
+        <script src="admin_dashboard_script.js"></script>
+        <script>
+    document.querySelectorAll('.candidate-form select').forEach(select => {
+        select.addEventListener('focus', () => {
+            select.style.transition = 'transform 0.3s';
+        });
+        select.addEventListener('blur', () => {
+            select.style.transform = 'rotateX(0deg)';
+        });
+    });
+</script>
 </body>
 </html>

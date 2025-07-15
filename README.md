@@ -63,7 +63,13 @@ git clone https://github.com/piitasan/mavericks-election-system.git
 
 4. **Run the project**
     - Start **XAMPP Apache and MySQL**
-    - Navigate to `http://localhost/mavericks-election-system` in your browser
+    - Navigate to `http://localhost/mavericks-election-system-main` in your browser
+    - **❗NOTE❗** its directory structure should be like this:
+    - ```
+      ├── xampp
+      │   ├── htdocs
+      │   │   ├── mavericks-election-system-main
+      ```
 
 ## 🔑 Default Admin Credentials
 ```

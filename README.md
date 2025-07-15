@@ -63,7 +63,7 @@ git clone https://github.com/piitasan/mavericks-election-system.git
 
 4. **Run the project**
     - Start **XAMPP Apache and MySQL**
-    - Navigate to `http://localhost/drivenbyms` in your browser
+    - Navigate to `http://localhost/mavericks-election-system` in your browser
 
 ## 🔑 Default Admin Credentials
 ```

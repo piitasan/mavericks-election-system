@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 15, 2025 at 07:03 AM
+-- Generation Time: Jul 15, 2025 at 12:50 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -211,7 +211,9 @@ INSERT INTO `system_logs` (`log_id`, `admin_id`, `action`, `created_at`) VALUES
 (57, 1, 'Added a New Candidate: Choi Woo-seok', '2025-07-15 04:50:03'),
 (58, 1, 'Added a New Candidate: Hwang Jun-ho', '2025-07-15 04:50:26'),
 (59, 1, 'Admin logged out', '2025-07-15 04:52:28'),
-(60, 1, 'Logged In', '2025-07-15 05:00:08');
+(60, 1, 'Logged In', '2025-07-15 05:00:08'),
+(61, 1, 'Added a New Candidate: Peterson Nicholas', '2025-07-15 10:23:45'),
+(62, 1, 'Deleted Candidate: Peterson Nicholas', '2025-07-15 10:23:52');
 
 -- --------------------------------------------------------
 
@@ -399,7 +401,7 @@ ALTER TABLE `user_tbl`
 ALTER TABLE `vote_tbl`
   ADD PRIMARY KEY (`vote_id`),
   ADD UNIQUE KEY `user_id` (`user_id`,`position_id`),
-  ADD KEY `candidate_id` (`candidate_id`);
+  ADD KEY `fk_vote_candidate` (`candidate_id`);
 
 --
 -- AUTO_INCREMENT for dumped tables
@@ -409,7 +411,7 @@ ALTER TABLE `vote_tbl`
 -- AUTO_INCREMENT for table `candidate_tbl`
 --
 ALTER TABLE `candidate_tbl`
-  MODIFY `candidate_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
+  MODIFY `candidate_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
 
 --
 -- AUTO_INCREMENT for table `election_tbl`
@@ -433,7 +435,7 @@ ALTER TABLE `position_tbl`
 -- AUTO_INCREMENT for table `system_logs`
 --
 ALTER TABLE `system_logs`
-  MODIFY `log_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=61;
+  MODIFY `log_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=63;
 
 --
 -- AUTO_INCREMENT for table `user_tasks`
@@ -475,6 +477,8 @@ ALTER TABLE `user_tasks`
 -- Constraints for table `vote_tbl`
 --
 ALTER TABLE `vote_tbl`
+  ADD CONSTRAINT `fk_vote_candidate` FOREIGN KEY (`candidate_id`) REFERENCES `candidate_tbl` (`candidate_id`),
+  ADD CONSTRAINT `fk_vote_user` FOREIGN KEY (`user_id`) REFERENCES `user_tbl` (`user_id`),
   ADD CONSTRAINT `vote_tbl_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `user_tbl` (`user_id`) ON DELETE CASCADE,
   ADD CONSTRAINT `vote_tbl_ibfk_2` FOREIGN KEY (`candidate_id`) REFERENCES `candidate_tbl` (`candidate_id`) ON DELETE CASCADE;
 COMMIT;

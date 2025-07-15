@@ -76,7 +76,7 @@ git clone https://github.com/piitasan/mavericks-election-system.git
 ## 🗂️ **Project Structure**
 
 ```
-DrivenByMS/mavericks-election-system
+mavericks-election-system
 │
 ├── Admin
 │   ├── admin_clear_database.php

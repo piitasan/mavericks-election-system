@@ -99,6 +99,7 @@ mavericks-election-system
 │   ├── party_maintenance.php
 │   ├── position_maintenance.php
 │   ├── version.php
+│   ├── view_voter.php
 │   └── voter_maintenance.php
 │
 ├── Student

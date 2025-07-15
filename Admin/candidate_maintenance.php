@@ -31,7 +31,7 @@ if (isset($_POST['add'])) {
 
     $image_name = null;
     if (isset($_FILES['candidate_image']) && $_FILES['candidate_image']['error'] == 0) {
-    $target_dir = "Database/Uploads/";
+        $target_dir = "dbImgUploads/";
 
         if (!is_dir($target_dir)) {
             mkdir($target_dir, 0755, true);
@@ -48,8 +48,8 @@ if (isset($_POST['add'])) {
 
 
     if (empty($errors)) {
-        if (empty($image_name)) {
-        $image_name = 'default_candidate_image.jpg';
+        if (is_null($image_name) || $image_name === '') {
+            $image_name = 'default_candidate_image.jpg';
         }
         $stmt = $pdo->prepare("INSERT INTO candidate_tbl (full_name, position_id, partylist_id, election_id, candidate_image) VALUES (?, ?, ?, ?, ?)");
         $stmt->execute([$full_name, $position_id, $partylist_id, $election_id, $image_name]);
@@ -83,10 +83,13 @@ if (isset($_POST['update'])) {
         $errors['election_id'] = "Election is required.";
     }
 
-    $image_name = $edit_candidate['candidate_image'];
+    $stmt = $pdo->prepare("SELECT candidate_image FROM candidate_tbl WHERE candidate_id = ?");
+    $stmt->execute([$candidate_id]);
+    $existing_candidate = $stmt->fetch();
+    $image_name = $existing_candidate['candidate_image'];
 
     if (isset($_FILES['candidate_image']) && $_FILES['candidate_image']['error'] == 0) {
-        $target_dir = "uploads/";
+        $target_dir = "dbImgUploads/";
         if (!is_dir($target_dir)) {
             mkdir($target_dir, 0755, true);
         }
@@ -346,8 +349,13 @@ $elections = $pdo->query("SELECT * FROM election_tbl")->fetchAll();
                     <td><?= $cand['partylist_name']; ?></td>
                     <td><?= $cand['election_name']; ?></td>
                     <td>
-                        <?php $imageFile = !empty($cand['candidate_image']) ? $cand['candidate_image'] : 'default_candidate_image.jpg'; ?>
-                        <img src="Database/Uploads/<?= htmlspecialchars($imageFile); ?>" alt="Candidate Photo" width="60" height="60">
+                        <?php
+                            $imageFile = 'dbImgUploads/' . $cand['candidate_image'];
+                            if (!file_exists($imageFile) || empty($cand['candidate_image'])) {
+                                $imageFile = 'dbImgUploads/default_candidate_image.jpg';
+                            }
+                        ?>
+                        <img src="<?= htmlspecialchars($imageFile); ?>" alt="Candidate Image" width="80">
                     </td>
                     <td>
                         <a href="candidate_maintenance.php?edit=<?= $cand['candidate_id']; ?>">Edit</a> |

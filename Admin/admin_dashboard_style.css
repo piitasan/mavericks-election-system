@@ -36,6 +36,13 @@ body {
     align-items: center;
 }
 
+.navbar-right {
+    display: flex;
+    align-items: center;
+    gap: 20px; 
+}
+
+
 .hamburger {
     font-size: 20px;
     background: none;
@@ -606,7 +613,7 @@ body {
     flex-wrap: wrap;
     gap: 10px;
     justify-content: center;
-    align-items: flex-start; /* prevents vertical stretch to max sibling height */
+    align-items: flex-start; 
 }
 
 
@@ -657,7 +664,7 @@ body {
 
 .system-logs-section,
 .quick-actions-section {
-    max-width: 1000px;
+    max-width: 1100px;
     margin: 0 auto;   
     width: 100%;
     box-sizing: border-box;

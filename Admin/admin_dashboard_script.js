@@ -17,6 +17,7 @@ window.onclick = function(event) {
         }
     }
 }
+
 document.addEventListener('DOMContentLoaded', () => {
   const blocks = document.querySelectorAll('.notification-block');
 

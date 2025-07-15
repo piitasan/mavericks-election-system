@@ -96,20 +96,24 @@ $active_election = getRecentRows($pdo, "
 </head>
 <body>
     <nav class="navbar">
-        <div class="navbar-left">
-            <button class="hamburger" onclick="toggleSidebar()">&#9776;</button>
-            <div class="navbar-title">Admin Dashboard</div>
-        </div>
+    <div class="navbar-left">
+        <button class="hamburger" onclick="toggleSidebar()">&#9776;</button>
+        <div class="navbar-title">Admin Dashboard</div>
+    </div>
+
+    <div class="navbar-right">
+
         <div class="profile" onclick="toggleDropdown()">
-            <div class="profile-texts">
-                <span class="profile-name">Admin</span>
-                <span class="profile-subtext">Maverick Studio</span>
-            </div>
-            <img src="https://images.unsplash.com/photo-1529778873920-4da4926a72c2?fm=jpg&q=60&w=3000" alt="Admin" class="profile-img" />
-            <div class="dropdown-content" id="profileDropdown">
-                <a href="logout.php">Logout</a>
-            </div>
+        <div class="profile-texts">
+            <span class="profile-name">Admin</span>
+            <span class="profile-subtext">Maverick Studio</span>
         </div>
+        <img src="https://images.unsplash.com/photo-1529778873920-4da4926a72c2?fm=jpg&q=60&w=3000" alt="Admin" class="profile-img" />
+        <div class="dropdown-content" id="profileDropdown">
+            <a href="logout.php">Logout</a>
+        </div>
+        </div>
+    </div>
     </nav>
 
     <div class="sidebar">

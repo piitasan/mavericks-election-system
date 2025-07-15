@@ -119,7 +119,9 @@ mavericks-election-system-main
 │   ├── vote.php
 │   └── vote_process.php
 │
-├── database
+├── Database
+│   └── Uploads
+│   │   └── default_candidate_image.jpg
 │   └── db_maverick_studio.sql
 │
 ├── mavericks_portal.php

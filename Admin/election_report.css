@@ -1,0 +1,361 @@
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f4f8fb;
+    margin: 0;
+    padding: 0;
+}
+
+a {
+    color: #007acc;
+    text-decoration: none;
+}
+a:hover {
+    text-decoration: underline;
+}
+
+
+main.content {
+    margin-left: 220px;
+    padding: 30px 20px 60px 20px;
+}
+
+.content {
+    margin-top: 75px;
+    margin-left: 220px;
+    padding: 10px;
+    padding-bottom: 60px;
+    transition: margin-left 0.3s ease;
+    gap: 10px;
+}
+
+.content-container,
+.content {
+    max-width: 100%;
+    overflow-x: hidden;
+    box-sizing: border-box;
+}
+
+.forms-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 40px;
+    margin-bottom: 40px;
+    max-width: 100%;
+    box-sizing: border-box;
+}
+
+.center-title {
+    text-align: center;
+    margin-bottom: 15px;
+    color: #1e40af;
+}
+
+.left-title {
+    text-align: left;
+    margin-bottom: 15px;
+    color: #1e40af;
+}
+
+.navbar {
+    background-color: #1e40af;
+    color: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 20px;
+    position: fixed;
+    width: 100%;
+    top: 0;
+    z-index: 1000;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    max-width: 100vw;
+    box-sizing: border-box;
+}
+
+.navbar-left {
+    display: flex;
+    align-items: center;
+}
+
+.hamburger {
+    font-size: 20px;
+    background: none;
+    border: none;
+    color: white;
+    margin-right: 15px;
+    cursor: pointer;
+    line-height: 1;
+}
+
+.navbar-title {
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.navbar-right {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.navbar-right a.back-to-dashboard {
+    background-color: #004b8d;
+    color: white;
+    padding: 8px 16px;
+    border-radius: 4px;
+    font-weight: bold;
+    text-decoration: none;
+    transition: background-color 0.2s ease;
+}
+
+.navbar-right a.back-to-dashboard:hover {
+    background-color: #003366;
+}
+
+
+.sidebar {
+    position: fixed;
+    top: 50px;
+    left: 0;
+    width: 220px;
+    height: calc(100% - 50px);
+    background-color: #1e3a8a;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    overflow-y: auto;
+    transition: width 0.3s ease;
+    max-width: 100vw;
+    box-sizing: border-box;
+}
+
+.sidebar ul {
+    list-style-type: none;
+    padding: 0 10px;
+}
+
+.sidebar ul li {
+    margin: 10px 0;
+}
+
+.sidebar ul li a {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: white;
+    text-decoration: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.sidebar ul li a:hover {
+    background-color: #2563eb;
+    transform: translateX(5px);
+}
+
+.sidebar ul li a img {
+    width: 20px;
+    height: 20px;
+    filter: brightness(0) invert(1) opacity(0.8);
+    transition: filter 0.3s ease;
+}
+
+.sidebar ul li a:hover img {
+    filter: brightness(0) invert(1);
+}
+
+.sidebar.active {
+    width: 60px;
+}
+
+.sidebar.active ul li a {
+    justify-content: center;
+    padding: 10px 0;
+}
+
+.sidebar.active ul li a span,
+.sidebar.active .clear-db-container,
+.sidebar.active .sidebar-version {
+    display: none;
+}
+
+.sidebar.active ~ .content {
+    margin-left: 60px;
+}
+
+.sidebar.active ~ .footer {
+    width: calc(100% - 60px);
+    margin-left: 60px;
+}
+
+
+.clear-db-container,
+.sidebar-version {
+    width: 100%;
+    text-align: center;
+}
+
+.clear-db-button {
+    background: none;
+    border: none;
+    color: red;
+    cursor: pointer;
+    font-size: 14px;
+    padding: 8px 12px;
+}
+
+.clear-db-button svg {
+    width: 16px;
+    height: 16px;
+}
+
+
+.form-section {
+    flex: 1 1 300px;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+    padding: 20px;
+    transition: all 0.3s ease;
+}
+
+.form-section.edit {
+    animation: slideIn 0.4s ease forwards;
+}
+
+.position-form label {
+    display: block;
+    margin: 10px 0 5px;
+    font-weight: bold;
+    color: #004b8d;
+}
+
+.position-form input[type="text"],
+.position-form select {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #99c2e6;
+    border-radius: 4px;
+}
+
+.position-form button {
+    width: 100%;
+    padding: 10px;
+    background-color: #007acc;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-weight: bold;
+    margin-top: 15px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.position-form button:hover {
+    background-color: #005fa3;
+}
+
+
+.content-table {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+}
+
+.content-table table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.content-table th,
+.content-table td {
+    border: 1px solid #cce0f5;
+    padding: 10px;
+    text-align: center;
+}
+
+.content-table th {
+    background-color: #004b8d;
+    color: white;
+}
+
+.content-table tr:nth-child(even) {
+    background-color: #e6f2ff;
+}
+
+
+.footer {
+    background-color: #1e40af;
+    color: #cbd5e1;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 20px;
+    position: fixed;
+    bottom: 0;
+    width: calc(100% - 220px);
+    margin-left: 220px;
+    font-size: 12px;
+    transition: margin-left 0.3s ease, width 0.3s ease;
+}
+
+.footer p,
+.footer .system_version {
+    margin: 0;
+    color: #cbd5e1;
+    text-align: right;
+    margin-right: 150px;
+    margin-left: 20px;
+}
+
+.footer small {
+    color: #cbd5e1;
+    text-align: right;
+    margin-right: 40px;
+}
+
+
+.back-link {
+    display: inline-block;
+    margin-top: 20px;
+    background-color: #004b8d;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 4px;
+}
+
+.back-link:hover {
+    background-color: #003366;
+}
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateX(30%);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+
+@media (max-width: 400px) {
+    .sidebar {
+        width: 60px;
+    }
+    .sidebar ul li a span {
+        display: none;
+    }
+    .forms-container {
+        flex-direction: column;
+    }
+    main.content {
+        margin-left: 60px;
+        padding: 80px 10px 10px 10px;
+    }
+}

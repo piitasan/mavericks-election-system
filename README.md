@@ -85,6 +85,7 @@ git clone https://github.com/piitasan/mavericks-election-system.git
 mavericks-election-system-main
 │
 ├── Admin
+│   │   └── dbImageUploads
 │   ├── admin_clear_database.php
 │   ├── admin_dashboard.php
 │   ├── admin_dashboard_script.js
@@ -120,8 +121,6 @@ mavericks-election-system-main
 │   └── vote_process.php
 │
 ├── Database
-│   └── Uploads
-│   │   └── default_candidate_image.jpg
 │   └── db_maverick_studio.sql
 │
 ├── mavericks_portal.php

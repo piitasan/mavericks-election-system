@@ -57,13 +57,19 @@ git clone https://github.com/piitasan/mavericks-election-system.git
 
 3. **Import the Database**
 - Open phpMyAdmin
-- Create a new database ```bash db_maverick_studio```
+- Create a new database ```db_maverick_studio```
 - Download and import the provided ```.sql``` in the ```Database``` folder OR:
 [⬇️ Download db_maverick_studio.sql](./Database/db_maverick_studio.sql) and hit ctrl + shift + s
 
 4. **Run the project**
     - Start **XAMPP Apache and MySQL**
-    - Navigate to `http://localhost/mavericks-election-system` in your browser
+    - Navigate to `http://localhost/mavericks-election-system-main` in your browser
+    - **❗NOTE❗** its directory structure should be like this:
+    - ```
+      ├── xampp
+      │   ├── htdocs
+      │   │   ├── mavericks-election-system-main
+      ```
 
 ## 🔑 Default Admin Credentials
 ```
@@ -76,7 +82,7 @@ git clone https://github.com/piitasan/mavericks-election-system.git
 ## 🗂️ **Project Structure**
 
 ```
-mavericks-election-system
+mavericks-election-system-main
 │
 ├── Admin
 │   ├── admin_clear_database.php

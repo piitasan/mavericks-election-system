@@ -8,7 +8,7 @@ if (!isset($_SESSION['admin_id'])) {
     exit;
 }
 
-$voters = $pdo->query("SELECT * FROM user_tbl WHERE role='student'")->fetchAll();
+$voters = $pdo->query("SELECT * FROM user_tbl WHERE role='student' ORDER BY student_id ASC")->fetchAll();
 ?>
 
 <!DOCTYPE html>
@@ -73,7 +73,12 @@ $voters = $pdo->query("SELECT * FROM user_tbl WHERE role='student'")->fetchAll()
     </div>
     <main class="content">
         <div class="content-container">
-            <h2>Voter Maintenance</h2>
+            <div class="search-container">
+                <form onsubmit="return false;">
+                    <input type="text" name="search" placeholder="Search by ID, Firstname, MI, Lastname">
+                    <button type="button">Search</button>
+                </form>
+            </div>
             <div class="content-table">
                 <table>
                     <thead>
@@ -89,22 +94,8 @@ $voters = $pdo->query("SELECT * FROM user_tbl WHERE role='student'")->fetchAll()
                             <th>Action</th>
                         </tr>
                     </thead>
-                    <tbody>
-                        <?php foreach ($voters as $voter): ?>
-                        <tr>
-                            <td><?= htmlspecialchars($voter['student_id']); ?></td>
-                            <td><?= htmlspecialchars($voter['first_name']); ?></td>
-                            <td><?= htmlspecialchars($voter['middle_initial']); ?></td>
-                            <td><?= htmlspecialchars($voter['last_name']); ?></td>
-                            <td><?= htmlspecialchars($voter['suffix']); ?></td>
-                            <td><?= htmlspecialchars($voter['section']); ?></td>
-                            <td><?= htmlspecialchars($voter['course']); ?></td>
-                            <td><?= htmlspecialchars($voter['year_level']); ?></td>
-                            <td>
-                                <a href="view_voter.php?id=<?= $voter['student_id']; ?>">View Voter</a>
-                            </td>
-                        </tr>
-                        <?php endforeach; ?>
+                    <tbody id="voter-table-body">
+                        <!-- Rows will be loaded here dynamically -->
                     </tbody>
                 </table>
             </div>
@@ -116,5 +107,30 @@ $voters = $pdo->query("SELECT * FROM user_tbl WHERE role='student'")->fetchAll()
         <small>Version: <?= SYSTEM_VERSION ?></small>
     </footer>
     <script src="admin_dashboard_script.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const searchInput = document.querySelector('input[name="search"]');
+            const tableBody = document.getElementById('voter-table-body');
+
+            function fetchVoters(query = '') {
+                const xhr = new XMLHttpRequest();
+                xhr.open('GET', 'fetch_voters.php?search=' + encodeURIComponent(query), true);
+                xhr.onload = function() {
+                    if (xhr.status === 200) {
+                        tableBody.innerHTML = xhr.responseText;
+                    } else {
+                        tableBody.innerHTML = '<tr><td colspan="9">Failed to load data.</td></tr>';
+                    }
+                };
+                xhr.send();
+            }
+
+            fetchVoters();
+
+            searchInput.addEventListener('input', function() {
+                fetchVoters(this.value);
+            });
+        });
+    </script>
 </body>
 </html>

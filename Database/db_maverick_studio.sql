@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 15, 2025 at 12:50 PM
+-- Generation Time: Jul 15, 2025 at 06:33 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -20,6 +20,41 @@ SET time_zone = "+00:00";
 --
 -- Database: `db_maverick_studio`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `candidate_notifs`
+--
+
+CREATE TABLE `candidate_notifs` (
+  `notification_id` int(11) NOT NULL,
+  `type` varchar(50) NOT NULL,
+  `message` text NOT NULL,
+  `is_read` tinyint(1) NOT NULL DEFAULT 0,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `candidate_notifs`
+--
+
+INSERT INTO `candidate_notifs` (`notification_id`, `type`, `message`, `is_read`, `created_at`) VALUES
+(1, 'candidate_add', 'Added candidate: FEU TECH', 0, '2025-07-15 15:57:20'),
+(2, 'candidate_update', 'Updated candidate: Joselito Mariones', 0, '2025-07-15 16:02:37'),
+(3, 'candidate_update', 'Updated candidate: Joselito Mario', 0, '2025-07-15 16:02:50'),
+(4, 'candidate_add', 'Added candidate: Jose Ferrer', 0, '2025-07-15 16:03:05'),
+(5, 'candidate_add', 'Added candidate: Mariano Teeves', 0, '2025-07-15 16:03:43'),
+(6, 'candidate_add', 'Added candidate: Grand Theft Auto 6', 0, '2025-07-15 16:06:42'),
+(7, 'candidate_update', 'Updated candidate: Allas De Alasa', 0, '2025-07-15 16:07:01'),
+(8, 'candidate_update', 'Updated candidate: Allas De Alas', 0, '2025-07-15 16:07:55'),
+(9, 'candidate_update', 'Updated candidate: Allas De Alasa', 0, '2025-07-15 16:08:18'),
+(10, 'candidate_update', 'Updated candidate: Allas De Alas', 0, '2025-07-15 16:08:32'),
+(11, 'candidate_update', 'Updated candidate: Allas De Alasa', 0, '2025-07-15 16:26:30'),
+(12, 'candidate_update', 'Updated candidate: Allas De Alas', 0, '2025-07-15 16:26:53'),
+(13, 'candidate_update', 'Updated candidate: Allas De Alasa', 0, '2025-07-15 16:27:19'),
+(14, 'candidate_update', 'Updated candidate: Allas De Alas', 0, '2025-07-15 16:29:00'),
+(15, 'candidate_update', 'Updated candidate: Allas De Alasa', 0, '2025-07-15 16:29:14');
 
 -- --------------------------------------------------------
 
@@ -42,7 +77,7 @@ CREATE TABLE `candidate_tbl` (
 --
 
 INSERT INTO `candidate_tbl` (`candidate_id`, `full_name`, `position_id`, `partylist_id`, `election_id`, `created_at`, `candidate_image`) VALUES
-(1, 'Allas De Alas', 1, 1, 1, '2025-07-15 04:42:17', NULL),
+(1, 'Allas De Alasa', 1, 1, 1, '2025-07-15 04:42:17', NULL),
 (2, 'Juan Dela Cruz', 2, 1, 1, '2025-07-15 04:43:05', NULL),
 (3, 'Jan Smiths', 3, 1, 1, '2025-07-15 04:43:19', NULL),
 (4, 'Local Kandidato', 4, 1, 1, '2025-07-15 04:43:39', NULL),
@@ -50,19 +85,25 @@ INSERT INTO `candidate_tbl` (`candidate_id`, `full_name`, `position_id`, `partyl
 (6, 'Sandwich Cookie', 6, 1, 1, '2025-07-15 04:43:59', NULL),
 (7, 'Nationwide Peace', 7, 1, 1, '2025-07-15 04:44:20', NULL),
 (8, 'Joselito Mario', 1, 2, 1, '2025-07-15 04:44:35', NULL),
-(9, 'Maria Cruz Santos', 2, 2, 1, '2025-07-15 04:44:50', NULL),
+(9, 'Maria Cruz Santos', 2, 2, 1, '2025-07-15 04:44:50', 'cand_68766627518508.39826392.jpg'),
 (11, 'Bello Pineda', 3, 2, 1, '2025-07-15 04:45:09', NULL),
 (12, 'Christian Mucho', 4, 2, 1, '2025-07-15 04:45:33', NULL),
 (13, 'Nicho San Juan', 5, 2, 1, '2025-07-15 04:45:57', NULL),
 (14, 'Richard Converge', 6, 2, 1, '2025-07-15 04:46:26', NULL),
 (15, 'Michael De Los Reyes', 7, 2, 1, '2025-07-15 04:46:42', NULL),
 (17, 'Hwang In-ho', 1, 3, 1, '2025-07-15 04:47:16', NULL),
-(18, 'Seong Gi-Hun', 2, 3, 1, '2025-07-15 04:47:25', NULL),
+(18, 'Seong Gi-Hun', 2, 3, 1, '2025-07-15 04:47:25', 'cand_687663b06e1d66.49014018.jpg'),
 (19, 'Kim Jun-hee', 3, 3, 1, '2025-07-15 04:48:49', NULL),
 (20, 'Lee Myung-gi', 4, 3, 1, '2025-07-15 04:49:13', NULL),
 (21, 'Cho Hyun-ju', 5, 3, 1, '2025-07-15 04:49:37', NULL),
 (22, 'Choi Woo-seok', 6, 3, 1, '2025-07-15 04:50:03', NULL),
-(23, 'Hwang Jun-ho', 7, 3, 1, '2025-07-15 04:50:26', NULL);
+(23, 'Hwang Jun-ho', 7, 3, 1, '2025-07-15 04:50:26', NULL),
+(25, 'Nasan Ang Sabaw', 1, 4, 1, '2025-07-15 12:40:34', 'cand_68766edc5946b3.62151643.png'),
+(26, 'FEU', 1, 5, 1, '2025-07-15 15:38:25', 'cand_687675f1ed2f34.14463433.png'),
+(27, 'FEU TECH', 2, 5, 1, '2025-07-15 15:57:20', 'default_candidate_image.jpg'),
+(28, 'Jose Ferrer', 6, 5, 1, '2025-07-15 16:03:05', 'default_candidate_image.jpg'),
+(29, 'Mariano Teeves', 7, 5, 1, '2025-07-15 16:03:43', 'default_candidate_image.jpg'),
+(30, 'Grand Theft Auto 6', 1, 8, 1, '2025-07-15 16:06:42', 'default_candidate_image.jpg');
 
 -- --------------------------------------------------------
 
@@ -108,7 +149,9 @@ INSERT INTO `partylist_tbl` (`partylist_id`, `partylist_name`, `created_at`, `de
 (3, 'Squid Game', '2025-07-15 04:41:03', NULL),
 (4, 'Panlarong Pusit', '2025-07-15 04:41:11', NULL),
 (5, 'TMRWFTW', '2025-07-15 04:41:40', NULL),
-(6, 'Ako Pinoy', '2025-07-15 04:41:50', NULL);
+(6, 'Ako Pinoy', '2025-07-15 04:41:50', NULL),
+(7, 'Kagubatan', '2025-07-15 14:22:34', '2025-07-15 22:22:41'),
+(8, 'GeForce RTX 5070 Ti', '2025-07-15 16:06:16', NULL);
 
 -- --------------------------------------------------------
 
@@ -213,7 +256,52 @@ INSERT INTO `system_logs` (`log_id`, `admin_id`, `action`, `created_at`) VALUES
 (59, 1, 'Admin logged out', '2025-07-15 04:52:28'),
 (60, 1, 'Logged In', '2025-07-15 05:00:08'),
 (61, 1, 'Added a New Candidate: Peterson Nicholas', '2025-07-15 10:23:45'),
-(62, 1, 'Deleted Candidate: Peterson Nicholas', '2025-07-15 10:23:52');
+(62, 1, 'Deleted Candidate: Peterson Nicholas', '2025-07-15 10:23:52'),
+(63, 1, 'Admin logged in', '2025-07-15 12:24:54'),
+(64, 1, 'Added a New Candidate: Nasan Ang Sabaw', '2025-07-15 12:40:34'),
+(65, 1, 'Admin logged in', '2025-07-15 14:12:13'),
+(66, 1, 'Updated Candidate: Nasan Ang Sabaw', '2025-07-15 14:16:02'),
+(67, 1, 'Updated Candidate: Seong Gi-Hun', '2025-07-15 14:20:32'),
+(68, 1, 'Added a New Partylist: Kagubatan', '2025-07-15 14:22:34'),
+(69, 1, 'Deleted Partylist: Kagubatan', '2025-07-15 14:22:41'),
+(70, 1, 'Updated Candidate: Maria Cruz Santos', '2025-07-15 14:31:03'),
+(71, 1, 'Admin logged out', '2025-07-15 14:33:58'),
+(72, 1, 'Admin logged in', '2025-07-15 14:34:05'),
+(73, 1, 'Updated Candidate: Player 456', '2025-07-15 14:34:30'),
+(74, 1, 'Updated Candidate: Seong Gi-Hun', '2025-07-15 14:34:56'),
+(75, 1, 'Updated Candidate: Nasan Ang Sabaw', '2025-07-15 15:00:07'),
+(76, 1, 'Updated Candidate: Nasan Ang Sabaw', '2025-07-15 15:00:22'),
+(77, 1, 'Updated Candidate: Nasan Ang Sabaw', '2025-07-15 15:00:29'),
+(78, 1, 'Updated Candidate: Nasan Ang Sabaw', '2025-07-15 15:00:35'),
+(79, 1, 'Updated Candidate: Nasan Ang Sabaw', '2025-07-15 15:02:42'),
+(80, 1, 'Updated Candidate: Nasan Ang Sabaw', '2025-07-15 15:02:53'),
+(81, 1, 'Updated Candidate: Nasan Ang Sabaw', '2025-07-15 15:06:14'),
+(82, 1, 'Updated Candidate: Nasan Ang Sabaw', '2025-07-15 15:06:30'),
+(83, 1, 'Updated Candidate: Nasan Ang Sabaw', '2025-07-15 15:07:18'),
+(84, 1, 'Updated Candidate: Nasan Ang Sabaw', '2025-07-15 15:08:05'),
+(85, 1, 'Updated Candidate: Nasan Ang Sabaw', '2025-07-15 15:08:12'),
+(86, 1, 'Updated Candidate: ', '2025-07-15 15:30:35'),
+(87, 1, 'Updated Candidate: ', '2025-07-15 15:30:40'),
+(88, 1, 'Updated Candidate: Nasan Ang Sabaw', '2025-07-15 15:30:47'),
+(89, 1, 'Updated Candidate: Nasan Ang Sabaw', '2025-07-15 15:31:32'),
+(90, 1, 'Updated Candidate: Nasan Ang Sabaw', '2025-07-15 15:34:16'),
+(91, 1, 'Added a New Candidate: FEU', '2025-07-15 15:38:25'),
+(92, 1, 'Added a New Candidate: FEU TECH', '2025-07-15 15:57:20'),
+(93, 1, 'Updated Candidate: Joselito Mariones', '2025-07-15 16:02:37'),
+(94, 1, 'Updated Candidate: Joselito Mario', '2025-07-15 16:02:50'),
+(95, 1, 'Added a New Candidate: Jose Ferrer', '2025-07-15 16:03:05'),
+(96, 1, 'Added a New Candidate: Mariano Teeves', '2025-07-15 16:03:43'),
+(97, 1, 'Added a New Partylist: GeForce RTX 5070 Ti', '2025-07-15 16:06:16'),
+(98, 1, 'Added a New Candidate: Grand Theft Auto 6', '2025-07-15 16:06:42'),
+(99, 1, 'Updated Candidate: Allas De Alasa', '2025-07-15 16:07:01'),
+(100, 1, 'Updated Candidate: Allas De Alas', '2025-07-15 16:07:55'),
+(101, 1, 'Updated Candidate: Allas De Alasa', '2025-07-15 16:08:18'),
+(102, 1, 'Updated Candidate: Allas De Alas', '2025-07-15 16:08:32'),
+(103, 1, 'Updated Candidate: Allas De Alasa', '2025-07-15 16:26:30'),
+(104, 1, 'Updated Candidate: Allas De Alas', '2025-07-15 16:26:53'),
+(105, 1, 'Updated Candidate: Allas De Alasa', '2025-07-15 16:27:19'),
+(106, 1, 'Updated Candidate: Allas De Alas', '2025-07-15 16:29:00'),
+(107, 1, 'Updated Candidate: Allas De Alasa', '2025-07-15 16:29:14');
 
 -- --------------------------------------------------------
 
@@ -348,6 +436,12 @@ INSERT INTO `vote_tbl` (`vote_id`, `user_id`, `candidate_id`, `vote_date`, `posi
 --
 
 --
+-- Indexes for table `candidate_notifs`
+--
+ALTER TABLE `candidate_notifs`
+  ADD PRIMARY KEY (`notification_id`);
+
+--
 -- Indexes for table `candidate_tbl`
 --
 ALTER TABLE `candidate_tbl`
@@ -408,10 +502,16 @@ ALTER TABLE `vote_tbl`
 --
 
 --
+-- AUTO_INCREMENT for table `candidate_notifs`
+--
+ALTER TABLE `candidate_notifs`
+  MODIFY `notification_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+
+--
 -- AUTO_INCREMENT for table `candidate_tbl`
 --
 ALTER TABLE `candidate_tbl`
-  MODIFY `candidate_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
+  MODIFY `candidate_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
 
 --
 -- AUTO_INCREMENT for table `election_tbl`
@@ -423,7 +523,7 @@ ALTER TABLE `election_tbl`
 -- AUTO_INCREMENT for table `partylist_tbl`
 --
 ALTER TABLE `partylist_tbl`
-  MODIFY `partylist_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `partylist_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `position_tbl`
@@ -435,7 +535,7 @@ ALTER TABLE `position_tbl`
 -- AUTO_INCREMENT for table `system_logs`
 --
 ALTER TABLE `system_logs`
-  MODIFY `log_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=63;
+  MODIFY `log_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=108;
 
 --
 -- AUTO_INCREMENT for table `user_tasks`

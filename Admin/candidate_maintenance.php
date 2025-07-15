@@ -199,8 +199,6 @@ function addNotification($pdo, $type, $message) {
     $stmt->execute([$type, $message]);
 }
 
-// $stmt = $pdo->query("SELECT * FROM candidate_notifs ORDER BY created_at DESC LIMIT 10");
-// $notifications = $stmt->fetchAll();
 ?>
 
 
@@ -222,7 +220,7 @@ function addNotification($pdo, $type, $message) {
     </nav>
     <?php if (!empty($success_message)): ?>
     <div id="notification" class="notification show">
-        <?= htmlspecialchars($success_message) ?>
+        <?php echo $success_message; ?>
     </div>
     <?php endif; ?>
     <div class="sidebar">
@@ -458,13 +456,14 @@ function addNotification($pdo, $type, $message) {
                 reader.readAsDataURL(file);
             }
         });
-        document.addEventListener("DOMContentLoaded", function(){
-        var notif = document.getElementById("notification");
-        if(notif){
-            notif.classList.add("show");
-            setTimeout(function(){
-                notif.classList.remove("show");
-            }, 3000);
+        window.addEventListener('DOMContentLoaded', (event) => {
+        var notification = document.getElementById('notification');
+        if(notification){
+            notification.classList.add('show');
+
+            setTimeout(() => {
+                notification.classList.remove('show');
+            }, 2000);
         }
     });
 </script>

@@ -151,24 +151,26 @@ main.content {
     align-items: center;
 }
 
+
 .notification {
     position: fixed;
     top: 75px; 
     right: 20px;
-    background-color: #2563EB; 
+    background-color: #2563EB;
     color: white;
-    padding: 12px 20px;
+    padding: 15px;
     border-radius: 4px;
     opacity: 0;
-    z-index: 9999;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.2);
-    transition: opacity 0.5s ease, transform 0.5s ease;
-    transform: translateY(-20px);
+    visibility: hidden;
+    transition: opacity 0.5s ease, visibility 0.5s ease;
+    z-index: 1000;
 }
+
 .notification.show {
     opacity: 1;
-    transform: translateY(0);
+    visibility: visible;
 }
+
 
 .hamburger {
     font-size: 20px;

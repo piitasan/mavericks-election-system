@@ -297,6 +297,15 @@ $elections = $pdo->query("SELECT * FROM election_tbl")->fetchAll();
                     <input type="hidden" name="candidate_id" value="<?= $edit_candidate['candidate_id']; ?>">
 
                     <label>Candidate Image:</label>
+                    <?php if (!empty($edit_candidate['candidate_image'])): ?>
+                        <div>
+                            <img src="dbImgUploads/<?= htmlspecialchars($edit_candidate['candidate_image']); ?>" alt="Candidate Image" class="candidate-image-preview">
+                        </div>
+                    <?php else: ?>
+                        <div>
+                            <img src="dbImgUploads/default_candidate_image.jpg" alt="Default Candidate Image" class="candidate-image-preview">
+                        </div>
+                    <?php endif; ?>
                     <input type="file" name="candidate_image" accept="image/*">
 
                     <label>Full Name:</label>

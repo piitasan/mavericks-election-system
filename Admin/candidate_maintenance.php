@@ -29,9 +29,30 @@ if (isset($_POST['add'])) {
         $errors['election_id'] = "Election is required.";
     }
 
+    $image_name = null;
+    if (isset($_FILES['candidate_image']) && $_FILES['candidate_image']['error'] == 0) {
+    $target_dir = "Database/Uploads/";
+
+        if (!is_dir($target_dir)) {
+            mkdir($target_dir, 0755, true);
+        }
+
+        $temp = explode(".", $_FILES["candidate_image"]["name"]);
+        $newfilename = uniqid('cand_', true) . '.' . end($temp);
+        $target_file = $target_dir . $newfilename;
+
+        move_uploaded_file($_FILES["candidate_image"]["tmp_name"], $target_file);
+
+        $image_name = $newfilename;
+    }
+
+
     if (empty($errors)) {
-        $stmt = $pdo->prepare("INSERT INTO candidate_tbl (full_name, position_id, partylist_id, election_id) VALUES (?, ?, ?, ?)");
-        $stmt->execute([$full_name, $position_id, $partylist_id, $election_id]);
+        if (empty($image_name)) {
+        $image_name = 'default_candidate_image.jpg';
+        }
+        $stmt = $pdo->prepare("INSERT INTO candidate_tbl (full_name, position_id, partylist_id, election_id, candidate_image) VALUES (?, ?, ?, ?, ?)");
+        $stmt->execute([$full_name, $position_id, $partylist_id, $election_id, $image_name]);
 
         $action = "Added a New Candidate: $full_name";
         $stmt = $pdo->prepare("INSERT INTO system_logs (admin_id, action) VALUES (?, ?)");
@@ -62,18 +83,40 @@ if (isset($_POST['update'])) {
         $errors['election_id'] = "Election is required.";
     }
 
+    $image_name = $edit_candidate['candidate_image'];
+
+    if (isset($_FILES['candidate_image']) && $_FILES['candidate_image']['error'] == 0) {
+        $target_dir = "uploads/";
+        if (!is_dir($target_dir)) {
+            mkdir($target_dir, 0755, true);
+        }
+
+        $temp = explode(".", $_FILES["candidate_image"]["name"]);
+        $newfilename = uniqid('cand_', true) . '.' . end($temp);
+        $target_file = $target_dir . $newfilename;
+
+        move_uploaded_file($_FILES["candidate_image"]["tmp_name"], $target_file);
+        
+        $image_name = $newfilename;
+    }
+
     if (empty($errors)) {
+        if (empty($image_name)) {
+            $image_name = 'default_candidate_image.jpg';
+        }
         $stmt = $pdo->prepare("UPDATE candidate_tbl
-                               SET full_name = :full_name,
-                                   position_id = :position_id,
-                                   partylist_id = :partylist_id,
-                                   election_id = :election_id
-                               WHERE candidate_id = :candidate_id");
+                       SET full_name = :full_name,
+                           position_id = :position_id,
+                           partylist_id = :partylist_id,
+                           election_id = :election_id,
+                           candidate_image = :candidate_image
+                       WHERE candidate_id = :candidate_id");
         $stmt->execute([
             'full_name' => $full_name,
             'position_id' => $position_id,
             'partylist_id' => $partylist_id,
             'election_id' => $election_id,
+            'candidate_image' => $image_name,
             'candidate_id' => $candidate_id
         ]);
 
@@ -189,8 +232,11 @@ $elections = $pdo->query("SELECT * FROM election_tbl")->fetchAll();
     <main class="content">
         <div class="forms-container <?= $edit_candidate ? 'split' : ''; ?>">
             <div class="form-section">
-                <form method="POST" class="candidate-form">
+                <form method="POST" enctype="multipart/form-data" class="candidate-form">
                     <h2>Add New Candidate</h2>
+
+                    <label>Candidate Image:</label>
+                    <input type="file" name="candidate_image" accept="image/*">
 
                     <label>Full Name:</label>
                     <input type="text" name="full_name" value="<?= isset($_POST['full_name']) ? htmlspecialchars($_POST['full_name']) : ''; ?>">
@@ -243,9 +289,12 @@ $elections = $pdo->query("SELECT * FROM election_tbl")->fetchAll();
 
             <?php if ($edit_candidate): ?>
             <div class="form-section<?= $edit_candidate ? ' edit' : ''; ?>">
-                <form method="POST" class="candidate-form">
+                <form method="POST" enctype="multipart/form-data" class="candidate-form">
                     <h2>Edit Candidate</h2>
                     <input type="hidden" name="candidate_id" value="<?= $edit_candidate['candidate_id']; ?>">
+
+                    <label>Candidate Image:</label>
+                    <input type="file" name="candidate_image" accept="image/*">
 
                     <label>Full Name:</label>
                     <input type="text" name="full_name" value="<?= htmlspecialchars($edit_candidate['full_name']); ?>">
@@ -287,7 +336,7 @@ $elections = $pdo->query("SELECT * FROM election_tbl")->fetchAll();
             <h2>Existing Candidates</h2>
             <table>
                 <tr>
-                    <th>ID</th><th>Name</th><th>Position</th><th>Party</th><th>Election</th><th>Action</th>
+                    <th>ID</th><th>Name</th><th>Position</th><th>Party</th><th>Election</th><th>Photo</th><th>Action</th>
                 </tr>
                 <?php foreach ($candidates as $cand): ?>
                 <tr>
@@ -296,6 +345,10 @@ $elections = $pdo->query("SELECT * FROM election_tbl")->fetchAll();
                     <td><?= $cand['position_name']; ?></td>
                     <td><?= $cand['partylist_name']; ?></td>
                     <td><?= $cand['election_name']; ?></td>
+                    <td>
+                        <?php $imageFile = !empty($cand['candidate_image']) ? $cand['candidate_image'] : 'default_candidate_image.jpg'; ?>
+                        <img src="Database/Uploads/<?= htmlspecialchars($imageFile); ?>" alt="Candidate Photo" width="60" height="60">
+                    </td>
                     <td>
                         <a href="candidate_maintenance.php?edit=<?= $cand['candidate_id']; ?>">Edit</a> |
                         <a href="candidate_maintenance.php?delete=<?= $cand['candidate_id']; ?>" onclick="return confirm('Delete this candidate?')">Delete</a>

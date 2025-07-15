@@ -74,6 +74,7 @@ $voters = $pdo->query("SELECT * FROM user_tbl WHERE role='student' ORDER BY stud
     <main class="content">
         <div class="content-container">
             <div class="search-container">
+                <h1>List of Student Voters 2025 Election</h1>
                 <form onsubmit="return false;">
                     <input type="text" name="search" placeholder="Search by ID, Firstname, MI, Lastname">
                     <button type="button">Search</button>

@@ -58,54 +58,66 @@ git clone https://github.com/piitasan/mavericks-election-system.git
 3. **Import the Database**
 - Open phpMyAdmin
 - Create a new database ```bash db_maverick_studio```
-- Import the provided .sql file in the project
-  
+- Download and import the provided ```.sql``` in the ```Database``` folder OR:
+[⬇️ Download db_maverick_studio.sql](./Database/db_maverick_studio.sql)
+
 4. **Run the project**
     - Start **XAMPP Apache and MySQL**
     - Navigate to `http://localhost/drivenbyms` in your browser
 
 ## 🔑 Default Admin Credentials
-
+```
 | Username | Password |
 | admin001 | admin123 |
+```
+ ⚠️ Don't commit a real credentials in the database, dummy credentials are fine.
+
 
 ## 🗂️ **Project Structure**
-/DrivenByMS
+
+```
+DrivenByMS
 │
 ├── Admin
-│ └── admin_clear_database.php
-│ └── admin_dashboard_script.js
-│ └── admin_dashboard_style.js
-│ └── admin_dashboard.php
-│ └── admin_login.php
-│ └── admin_style.css
-│ └── admin_tasks.php
-│ └── candidate_maintenance.css
-│ └── candidate_maintenance.php
-│ └── db_connect.php
-│ └── download_election_report.php
-│ └── edit_candidate.php
-│ └── edit_party.php
-│ └── edit_position.php
-│ └── election_report.php
-│ └── logout.php
-│ └── party_maintenance.css
-│ └── party_maintenance.php
-│ └── position_maintenance.php
-│ └── version.php
-│ └── voter_maintenance.php
+│   ├── admin_clear_database.php
+│   ├── admin_dashboard.php
+│   ├── admin_dashboard_script.js
+│   ├── admin_dashboard_style.js
+│   ├── admin_login.php
+│   ├── admin_style.css
+│   ├── admin_tasks.php
+│   ├── candidate_maintenance.css
+│   ├── candidate_maintenance.php
+│   ├── db_connect.php
+│   ├── download_election_report.php
+│   ├── edit_candidate.php
+│   ├── edit_party.php
+│   ├── edit_position.php
+│   ├── election_report.php
+│   ├── logout.php
+│   ├── party_maintenance.css
+│   ├── party_maintenance.php
+│   ├── position_maintenance.php
+│   ├── version.php
+│   └── voter_maintenance.php
+│
 ├── Student
-│ └── db_connect.php
-│ └── logout.php
-│ └── student_dashboard.php
-│ └── student_login.php
-│ └── student_registration.php
-│ └── student_style.css
-│ └── view_result.php
-│ └── vote_process.php
-│ └── vote.php
+│   ├── db_connect.php
+│   ├── logout.php
+│   ├── student_dashboard.php
+│   ├── student_login.php
+│   ├── student_registration.php
+│   ├── student_style.css
+│   ├── view_result.php
+│   ├── vote.php
+│   └── vote_process.php
+│
+├── database
+│   └── db_maverick_studio.sql
+│
 ├── mavericks_portal.php
-├── portal_style.css
+└── portal_style.css
+```
 
 ## 📄 **License**
 

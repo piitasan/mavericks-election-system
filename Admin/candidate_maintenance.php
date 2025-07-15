@@ -8,56 +8,82 @@ if (!isset($_SESSION['admin_id'])) {
     exit;
 }
 
+$errors = [];
+
 if (isset($_POST['add'])) {
-    $full_name = $_POST['full_name'];
-    $position_id = $_POST['position_id'];
-    $partylist_id = $_POST['partylist_id'];
-    $election_id = $_POST['election_id'];
+    $full_name = isset($_POST['full_name']) ? trim($_POST['full_name']) : '';
+    $position_id = isset($_POST['position_id']) ? trim($_POST['position_id']) : '';
+    $partylist_id = isset($_POST['partylist_id']) ? trim($_POST['partylist_id']) : '';
+    $election_id = isset($_POST['election_id']) ? trim($_POST['election_id']) : '';
 
-    $stmt = $pdo->prepare("INSERT INTO candidate_tbl (full_name, position_id, partylist_id, election_id)
-                           VALUES (:full_name, :position_id, :partylist_id, :election_id)");
-    $stmt->execute([
-        'full_name' => $full_name,
-        'position_id' => $position_id,
-        'partylist_id' => $partylist_id,
-        'election_id' => $election_id
-    ]);
+    if (empty($full_name)) {
+        $errors['full_name'] = "Full Name is required.";
+    }
+    if (empty($position_id)) {
+        $errors['position_id'] = "Position is required.";
+    }
+    if (empty($partylist_id)) {
+        $errors['partylist_id'] = "Partylist is required.";
+    }
+    if (empty($election_id)) {
+        $errors['election_id'] = "Election is required.";
+    }
 
-    $action = "Added a New Candidate: $full_name";
-    $stmt = $pdo->prepare("INSERT INTO system_logs (admin_id, action) VALUES (?, ?)");
-    $stmt->execute([$_SESSION['admin_id'], $action]);
+    if (empty($errors)) {
+        $stmt = $pdo->prepare("INSERT INTO candidate_tbl (full_name, position_id, partylist_id, election_id) VALUES (?, ?, ?, ?)");
+        $stmt->execute([$full_name, $position_id, $partylist_id, $election_id]);
 
-    header("Location: candidate_maintenance.php");
-    exit;
+        $action = "Added a New Candidate: $full_name";
+        $stmt = $pdo->prepare("INSERT INTO system_logs (admin_id, action) VALUES (?, ?)");
+        $stmt->execute([$_SESSION['admin_id'], $action]);
+
+        header("Location: candidate_maintenance.php");
+        exit;
+    }
 }
 
 if (isset($_POST['update'])) {
-    $candidate_id = $_POST['candidate_id'];
-    $full_name = $_POST['full_name'];
-    $position_id = $_POST['position_id'];
-    $partylist_id = $_POST['partylist_id'];
-    $election_id = $_POST['election_id'];
+    $candidate_id = isset($_POST['candidate_id']) ? trim($_POST['candidate_id']) : '';
+    $full_name = isset($_POST['full_name']) ? trim($_POST['full_name']) : '';
+    $position_id = isset($_POST['position_id']) ? trim($_POST['position_id']) : '';
+    $partylist_id = isset($_POST['partylist_id']) ? trim($_POST['partylist_id']) : '';
+    $election_id = isset($_POST['election_id']) ? trim($_POST['election_id']) : '';
 
-    $stmt = $pdo->prepare("UPDATE candidate_tbl
-                           SET full_name = :full_name,
-                               position_id = :position_id,
-                               partylist_id = :partylist_id,
-                               election_id = :election_id
-                           WHERE candidate_id = :candidate_id");
-    $stmt->execute([
-        'full_name' => $full_name,
-        'position_id' => $position_id,
-        'partylist_id' => $partylist_id,
-        'election_id' => $election_id,
-        'candidate_id' => $candidate_id
-    ]);
+    if (empty($full_name)) {
+        $errors['full_name'] = "Full Name is required.";
+    }
+    if (empty($position_id)) {
+        $errors['position_id'] = "Position is required.";
+    }
+    if (empty($partylist_id)) {
+        $errors['partylist_id'] = "Partylist is required.";
+    }
+    if (empty($election_id)) {
+        $errors['election_id'] = "Election is required.";
+    }
 
-    $action = "Updated Candidate: $full_name";
-    $stmt = $pdo->prepare("INSERT INTO system_logs (admin_id, action) VALUES (?, ?)");
-    $stmt->execute([$_SESSION['admin_id'], $action]);
+    if (empty($errors)) {
+        $stmt = $pdo->prepare("UPDATE candidate_tbl
+                               SET full_name = :full_name,
+                                   position_id = :position_id,
+                                   partylist_id = :partylist_id,
+                                   election_id = :election_id
+                               WHERE candidate_id = :candidate_id");
+        $stmt->execute([
+            'full_name' => $full_name,
+            'position_id' => $position_id,
+            'partylist_id' => $partylist_id,
+            'election_id' => $election_id,
+            'candidate_id' => $candidate_id
+        ]);
 
-    header("Location: candidate_maintenance.php");
-    exit;
+        $action = "Updated Candidate: $full_name";
+        $stmt = $pdo->prepare("INSERT INTO system_logs (admin_id, action) VALUES (?, ?)");
+        $stmt->execute([$_SESSION['admin_id'], $action]);
+
+        header("Location: candidate_maintenance.php");
+        exit;
+    }
 }
 
 if (isset($_GET['delete'])) {
@@ -72,9 +98,11 @@ if (isset($_GET['delete'])) {
 
     if ($candidate) {
         $action = "Deleted Candidate: " . $candidate['full_name'];
-        $stmt = $pdo->prepare("INSERT INTO system_logs (admin_id, action) VALUES (?, ?)");
-        $stmt->execute([$_SESSION['admin_id'], $action]);
+    } else {
+        $action = "Attempted to delete non-existing candidate with ID: $id";
     }
+    $stmt = $pdo->prepare("INSERT INTO system_logs (admin_id, action) VALUES (?, ?)");
+    $stmt->execute([$_SESSION['admin_id'], $action]);
 }
 
 $edit_candidate = null;
@@ -96,7 +124,9 @@ $candidates = $pdo->query("
 $positions = $pdo->query("SELECT * FROM position_tbl")->fetchAll();
 $partylists = $pdo->query("SELECT * FROM partylist_tbl")->fetchAll();
 $elections = $pdo->query("SELECT * FROM election_tbl")->fetchAll();
+
 ?>
+
 
 <!DOCTYPE html>
 <html>
@@ -163,28 +193,49 @@ $elections = $pdo->query("SELECT * FROM election_tbl")->fetchAll();
                     <h2>Add New Candidate</h2>
 
                     <label>Full Name:</label>
-                    <input type="text" name="full_name" required>
+                    <input type="text" name="full_name" value="<?= isset($_POST['full_name']) ? htmlspecialchars($_POST['full_name']) : ''; ?>">
+                    <?php if (isset($errors['full_name'])): ?>
+                        <p style="color:red;"><?= $errors['full_name']; ?></p>
+                    <?php endif; ?>
 
                     <label>Position:</label>
-                    <select name="position_id" required>
+                    <select name="position_id">
+                        <option value="" disabled selected>Select Position</option>
                         <?php foreach ($positions as $pos): ?>
-                            <option value="<?= $pos['position_id']; ?>"><?= $pos['position_name']; ?></option>
+                            <option value="<?= $pos['position_id']; ?>" <?= (isset($_POST['position_id']) && $_POST['position_id'] == $pos['position_id']) ? 'selected' : ''; ?>>
+                                <?= $pos['position_name']; ?>
+                            </option>
                         <?php endforeach; ?>
                     </select>
+                    <?php if (isset($errors['position_id'])): ?>
+                        <p style="color:red;"><?= $errors['position_id']; ?></p>
+                    <?php endif; ?>
 
                     <label>Partylist:</label>
-                    <select name="partylist_id" required>
+                    <select name="partylist_id">
+                        <option value="" disabled selected>Select Partylist</option>
                         <?php foreach ($partylists as $pl): ?>
-                            <option value="<?= $pl['partylist_id']; ?>"><?= $pl['partylist_name']; ?></option>
+                            <option value="<?= $pl['partylist_id']; ?>" <?= (isset($_POST['partylist_id']) && $_POST['partylist_id'] == $pl['partylist_id']) ? 'selected' : ''; ?>>
+                                <?= $pl['partylist_name']; ?>
+                            </option>
                         <?php endforeach; ?>
                     </select>
+                    <?php if (isset($errors['partylist_id'])): ?>
+                        <p style="color:red;"><?= $errors['partylist_id']; ?></p>
+                    <?php endif; ?>
 
                     <label>Election:</label>
-                    <select name="election_id" required>
+                    <select name="election_id">
+                        <option value="" disabled selected>Select Election</option>
                         <?php foreach ($elections as $el): ?>
-                            <option value="<?= $el['election_id']; ?>"><?= $el['election_name']; ?></option>
+                            <option value="<?= $el['election_id']; ?>" <?= (isset($_POST['election_id']) && $_POST['election_id'] == $el['election_id']) ? 'selected' : ''; ?>>
+                                <?= $el['election_name']; ?>
+                            </option>
                         <?php endforeach; ?>
                     </select>
+                    <?php if (isset($errors['election_id'])): ?>
+                        <p style="color:red;"><?= $errors['election_id']; ?></p>
+                    <?php endif; ?>
 
                     <button type="submit" name="add">Add Candidate</button>
                 </form>
@@ -197,10 +248,10 @@ $elections = $pdo->query("SELECT * FROM election_tbl")->fetchAll();
                     <input type="hidden" name="candidate_id" value="<?= $edit_candidate['candidate_id']; ?>">
 
                     <label>Full Name:</label>
-                    <input type="text" name="full_name" value="<?= $edit_candidate['full_name']; ?>" required>
+                    <input type="text" name="full_name" value="<?= htmlspecialchars($edit_candidate['full_name']); ?>">
 
                     <label>Position:</label>
-                    <select name="position_id" required>
+                    <select name="position_id">
                         <?php foreach ($positions as $pos): ?>
                             <option value="<?= $pos['position_id']; ?>" <?= ($edit_candidate['position_id'] == $pos['position_id']) ? 'selected' : ''; ?>>
                                 <?= $pos['position_name']; ?>
@@ -209,7 +260,7 @@ $elections = $pdo->query("SELECT * FROM election_tbl")->fetchAll();
                     </select>
 
                     <label>Partylist:</label>
-                    <select name="partylist_id" required>
+                    <select name="partylist_id">
                         <?php foreach ($partylists as $pl): ?>
                             <option value="<?= $pl['partylist_id']; ?>" <?= ($edit_candidate['partylist_id'] == $pl['partylist_id']) ? 'selected' : ''; ?>>
                                 <?= $pl['partylist_name']; ?>
@@ -218,7 +269,7 @@ $elections = $pdo->query("SELECT * FROM election_tbl")->fetchAll();
                     </select>
 
                     <label>Election:</label>
-                    <select name="election_id" required>
+                    <select name="election_id">
                         <?php foreach ($elections as $el): ?>
                             <option value="<?= $el['election_id']; ?>" <?= ($edit_candidate['election_id'] == $el['election_id']) ? 'selected' : ''; ?>>
                                 <?= $el['election_name']; ?>
@@ -253,7 +304,6 @@ $elections = $pdo->query("SELECT * FROM election_tbl")->fetchAll();
                 <?php endforeach; ?>
             </table>
         </div>
-    </div>
     </main>
     <footer class="footer">
         <p>&copy; <?= date('Y') ?> Driven By Maverick Studio. All rights reserved.</p>

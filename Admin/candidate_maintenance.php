@@ -8,7 +8,14 @@ if (!isset($_SESSION['admin_id'])) {
     exit;
 }
 
-$errors = [];
+$success_message = '';
+if (isset($_SESSION['success_message'])) {
+    $success_message = $_SESSION['success_message'];
+    unset($_SESSION['success_message']);
+}
+
+$errors_Add = [];
+$errors_Update = [];
 
 if (isset($_POST['add'])) {
     $full_name = isset($_POST['full_name']) ? trim($_POST['full_name']) : '';
@@ -17,16 +24,16 @@ if (isset($_POST['add'])) {
     $election_id = isset($_POST['election_id']) ? trim($_POST['election_id']) : '';
 
     if (empty($full_name)) {
-        $errors['full_name'] = "Full Name is required.";
+        $errors_Add['full_name'] = "Full Name is required.";
     }
     if (empty($position_id)) {
-        $errors['position_id'] = "Position is required.";
+        $errors_Add['position_id'] = "Position is required.";
     }
     if (empty($partylist_id)) {
-        $errors['partylist_id'] = "Partylist is required.";
+        $errors_Add['partylist_id'] = "Partylist is required.";
     }
     if (empty($election_id)) {
-        $errors['election_id'] = "Election is required.";
+        $errors_Add['election_id'] = "Election is required.";
     }
 
     $image_name = null;
@@ -47,7 +54,7 @@ if (isset($_POST['add'])) {
     }
 
 
-    if (empty($errors)) {
+    if (empty($errors_Add)) {
         if (is_null($image_name) || $image_name === '') {
             $image_name = 'default_candidate_image.jpg';
         }
@@ -58,6 +65,8 @@ if (isset($_POST['add'])) {
         $stmt = $pdo->prepare("INSERT INTO system_logs (admin_id, action) VALUES (?, ?)");
         $stmt->execute([$_SESSION['admin_id'], $action]);
 
+        addNotification($pdo, 'candidate_add', 'Added candidate: ' . $full_name);
+        $_SESSION['success_message'] = 'Candidate successfully added!';
         header("Location: candidate_maintenance.php");
         exit;
     }
@@ -71,16 +80,16 @@ if (isset($_POST['update'])) {
     $election_id = isset($_POST['election_id']) ? trim($_POST['election_id']) : '';
 
     if (empty($full_name)) {
-        $errors['full_name'] = "Full Name is required.";
+        $errors_Update['full_name'] = "Full Name is required.";
     }
     if (empty($position_id)) {
-        $errors['position_id'] = "Position is required.";
+        $errors_Update['position_id'] = "Position is required.";
     }
     if (empty($partylist_id)) {
-        $errors['partylist_id'] = "Partylist is required.";
+        $errors_Update['partylist_id'] = "Partylist is required.";
     }
     if (empty($election_id)) {
-        $errors['election_id'] = "Election is required.";
+        $errors_Update['election_id'] = "Election is required.";
     }
 
     $stmt = $pdo->prepare("SELECT candidate_image FROM candidate_tbl WHERE candidate_id = ?");
@@ -89,6 +98,10 @@ if (isset($_POST['update'])) {
     $image_name = $existing_candidate['candidate_image'];
 
     if (isset($_FILES['candidate_image']) && $_FILES['candidate_image']['error'] == 0) {
+        if ($image_name != 'default_candidate_image.jpg' && file_exists("dbImgUploads/" . $image_name)) {
+            unlink("dbImgUploads/" . $image_name);
+        }
+
         $target_dir = "dbImgUploads/";
         if (!is_dir($target_dir)) {
             mkdir($target_dir, 0755, true);
@@ -103,10 +116,7 @@ if (isset($_POST['update'])) {
         $image_name = $newfilename;
     }
 
-    if (empty($errors)) {
-        if (empty($image_name)) {
-            $image_name = 'default_candidate_image.jpg';
-        }
+    if (empty($errors_Update)) {
         $stmt = $pdo->prepare("UPDATE candidate_tbl
                        SET full_name = :full_name,
                            position_id = :position_id,
@@ -127,10 +137,13 @@ if (isset($_POST['update'])) {
         $stmt = $pdo->prepare("INSERT INTO system_logs (admin_id, action) VALUES (?, ?)");
         $stmt->execute([$_SESSION['admin_id'], $action]);
 
+        addNotification($pdo, 'candidate_update', 'Updated candidate: ' . $full_name);
+        $_SESSION['success_message'] = 'Candidate successfully updated!';
         header("Location: candidate_maintenance.php");
         exit;
     }
 }
+
 
 if (isset($_GET['delete'])) {
     $id = $_GET['delete'];
@@ -149,6 +162,16 @@ if (isset($_GET['delete'])) {
     }
     $stmt = $pdo->prepare("INSERT INTO system_logs (admin_id, action) VALUES (?, ?)");
     $stmt->execute([$_SESSION['admin_id'], $action]);
+
+    if ($candidate) {
+    addNotification($pdo, 'candidate_delete', 'Deleted candidate: ' . $candidate['full_name']);
+    } else {
+        addNotification($pdo, 'candidate_delete', 'Attempted to delete non-existing candidate with ID: ' . $id);
+    }
+
+    $_SESSION['success_message'] = 'Candidate successfully deleted!';
+    header("Location: candidate_maintenance.php");
+    exit();
 }
 
 $edit_candidate = null;
@@ -171,6 +194,13 @@ $positions = $pdo->query("SELECT * FROM position_tbl")->fetchAll();
 $partylists = $pdo->query("SELECT * FROM partylist_tbl")->fetchAll();
 $elections = $pdo->query("SELECT * FROM election_tbl")->fetchAll();
 
+function addNotification($pdo, $type, $message) {
+    $stmt = $pdo->prepare("INSERT INTO candidate_notifs (type, message) VALUES (?, ?)");
+    $stmt->execute([$type, $message]);
+}
+
+// $stmt = $pdo->query("SELECT * FROM candidate_notifs ORDER BY created_at DESC LIMIT 10");
+// $notifications = $stmt->fetchAll();
 ?>
 
 
@@ -190,6 +220,11 @@ $elections = $pdo->query("SELECT * FROM election_tbl")->fetchAll();
             <a href="admin_dashboard.php" class="back-to-dashboard">Back to Dashboard</a>
         </div>
     </nav>
+    <?php if (!empty($success_message)): ?>
+    <div id="notification" class="notification show">
+        <?= htmlspecialchars($success_message) ?>
+    </div>
+    <?php endif; ?>
     <div class="sidebar">
         <ul>
             <li>
@@ -238,52 +273,61 @@ $elections = $pdo->query("SELECT * FROM election_tbl")->fetchAll();
                 <form method="POST" enctype="multipart/form-data" class="candidate-form">
                     <h2>Add New Candidate</h2>
 
-                    <label>Candidate Image:</label>
-                    <input type="file" name="candidate_image" accept="image/*">
+                    <div class="image-upload-wrapper">
+                        <div class="image-upload-container">
+                            <label for="candidate_image">
+                                <div class="candidate-image-placeholder">
+                                    <span class="plus-icon">+</span>
+                                </div>
+                                <div class="overlay">Add Image</div>
+                            </label>
+                            <input type="file" id="candidate_image" name="candidate_image" accept="image/*" style="display:none;">
+                        </div>
+                    </div>
 
                     <label>Full Name:</label>
-                    <input type="text" name="full_name" value="<?= isset($_POST['full_name']) ? htmlspecialchars($_POST['full_name']) : ''; ?>">
-                    <?php if (isset($errors['full_name'])): ?>
-                        <p style="color:red;"><?= $errors['full_name']; ?></p>
+                    <input type="text" name="full_name" value="<?= (isset($_POST['add']) && isset($_POST['full_name'])) ? htmlspecialchars($_POST['full_name']) : ''; ?>">
+                    <?php if (isset($errors_Add['full_name'])): ?>
+                        <p style="color:red;"><?= $errors_Add['full_name']; ?></p>
                     <?php endif; ?>
                         
                     <label>Position:</label>
                     <select name="position_id">
                         <option value="" disabled selected>Select Position</option>
                         <?php foreach ($positions as $pos): ?>
-                            <option value="<?= $pos['position_id']; ?>" <?= (isset($_POST['position_id']) && $_POST['position_id'] == $pos['position_id']) ? 'selected' : ''; ?>>
+                            <option value="<?= $pos['position_id']; ?>" <?= (isset($_POST['add']) && isset($_POST['position_id']) && $_POST['position_id'] == $pos['position_id']) ? 'selected' : ''; ?>>
                                 <?= $pos['position_name']; ?>
                             </option>
                         <?php endforeach; ?>
                     </select>
-                    <?php if (isset($errors['position_id'])): ?>
-                        <p style="color:red;"><?= $errors['position_id']; ?></p>
+                    <?php if (isset($errors_Add['position_id'])): ?>
+                        <p style="color:red;"><?= $errors_Add['position_id']; ?></p>
                     <?php endif; ?>
 
                     <label>Partylist:</label>
                     <select name="partylist_id">
                         <option value="" disabled selected>Select Partylist</option>
                         <?php foreach ($partylists as $pl): ?>
-                            <option value="<?= $pl['partylist_id']; ?>" <?= (isset($_POST['partylist_id']) && $_POST['partylist_id'] == $pl['partylist_id']) ? 'selected' : ''; ?>>
+                            <option value="<?= $pl['partylist_id']; ?>" <?= (isset($_POST['add']) && isset($_POST['partylist_id']) && $_POST['partylist_id'] == $pl['partylist_id']) ? 'selected' : ''; ?>>
                                 <?= $pl['partylist_name']; ?>
                             </option>
                         <?php endforeach; ?>
                     </select>
-                    <?php if (isset($errors['partylist_id'])): ?>
-                        <p style="color:red;"><?= $errors['partylist_id']; ?></p>
+                    <?php if (isset($errors_Add['partylist_id'])): ?>
+                        <p style="color:red;"><?= $errors_Add['partylist_id']; ?></p>
                     <?php endif; ?>
 
                     <label>Election:</label>
                     <select name="election_id">
                         <option value="" disabled selected>Select Election</option>
                         <?php foreach ($elections as $el): ?>
-                            <option value="<?= $el['election_id']; ?>" <?= (isset($_POST['election_id']) && $_POST['election_id'] == $el['election_id']) ? 'selected' : ''; ?>>
+                            <option value="<?= $el['election_id']; ?>" <?= (isset($_POST['add']) && isset($_POST['election_id']) && $_POST['election_id'] == $el['election_id']) ? 'selected' : ''; ?>>
                                 <?= $el['election_name']; ?>
                             </option>
                         <?php endforeach; ?>
                     </select>
-                    <?php if (isset($errors['election_id'])): ?>
-                        <p style="color:red;"><?= $errors['election_id']; ?></p>
+                    <?php if (isset($errors_Add['election_id'])): ?>
+                        <p style="color:red;"><?= $errors_Add['election_id']; ?></p>
                     <?php endif; ?>
 
                     <button type="submit" name="add">Add Candidate</button>
@@ -291,59 +335,73 @@ $elections = $pdo->query("SELECT * FROM election_tbl")->fetchAll();
             </div>
 
             <?php if ($edit_candidate): ?>
-            <div class="form-section<?= $edit_candidate ? ' edit' : ''; ?>">
+            <div class="form-section edit">
                 <form method="POST" enctype="multipart/form-data" class="candidate-form">
                     <h2>Edit Candidate</h2>
                     <input type="hidden" name="candidate_id" value="<?= $edit_candidate['candidate_id']; ?>">
 
-                    <label>Candidate Image:</label>
-                    <?php if (!empty($edit_candidate['candidate_image'])): ?>
-                        <div>
-                            <img src="dbImgUploads/<?= htmlspecialchars($edit_candidate['candidate_image']); ?>" alt="Candidate Image" class="candidate-image-preview">
+                    <div class="image-upload-wrapper">
+                        <div class="image-upload-container">
+                            <label for="edit_candidate_image">
+                                <?php
+                                    $imageSrc = !empty($edit_candidate['candidate_image'])
+                                        ? 'dbImgUploads/' . htmlspecialchars($edit_candidate['candidate_image'])
+                                        : 'dbImgUploads/default_candidate_image.jpg';
+                                ?>
+                                <img src="<?= $imageSrc; ?>" alt="Candidate Image" class="candidate-image-preview" id="candidateImagePreview">
+                                <div class="overlay">Change Image</div>
+                            </label>
+                            <input type="file" id="edit_candidate_image" name="candidate_image" accept="image/*" style="display:none;">
                         </div>
-                    <?php else: ?>
-                        <div>
-                            <img src="dbImgUploads/default_candidate_image.jpg" alt="Default Candidate Image" class="candidate-image-preview">
-                        </div>
-                    <?php endif; ?>
-                    <input type="file" name="candidate_image" accept="image/*">
+                    </div>
 
                     <label>Full Name:</label>
-                    <input type="text" name="full_name" value="<?= htmlspecialchars($edit_candidate['full_name']); ?>">
+                    <input type="text" name="full_name" value="<?= isset($_POST['full_name']) && isset($_POST['update']) ? htmlspecialchars($_POST['full_name']) : htmlspecialchars($edit_candidate['full_name']); ?>">
+                    <?php if (isset($errors_Update['full_name'])): ?>
+                        <p style="color:red;"><?= $errors_Update['full_name']; ?></p>
+                    <?php endif; ?>
 
                     <label>Position:</label>
                     <select name="position_id">
                         <?php foreach ($positions as $pos): ?>
-                            <option value="<?= $pos['position_id']; ?>" <?= ($edit_candidate['position_id'] == $pos['position_id']) ? 'selected' : ''; ?>>
+                            <option value="<?= $pos['position_id']; ?>" <?= (isset($_POST['position_id']) && isset($_POST['update']) && $_POST['position_id'] == $pos['position_id']) || (!isset($_POST['update']) && $edit_candidate['position_id'] == $pos['position_id']) ? 'selected' : ''; ?>>
                                 <?= $pos['position_name']; ?>
                             </option>
                         <?php endforeach; ?>
                     </select>
+                    <?php if (isset($errors_Update['position_id'])): ?>
+                        <p style="color:red;"><?= $errors_Update['position_id']; ?></p>
+                    <?php endif; ?>
 
                     <label>Partylist:</label>
                     <select name="partylist_id">
                         <?php foreach ($partylists as $pl): ?>
-                            <option value="<?= $pl['partylist_id']; ?>" <?= ($edit_candidate['partylist_id'] == $pl['partylist_id']) ? 'selected' : ''; ?>>
+                            <option value="<?= $pl['partylist_id']; ?>" <?= (isset($_POST['partylist_id']) && isset($_POST['update']) && $_POST['partylist_id'] == $pl['partylist_id']) || (!isset($_POST['update']) && $edit_candidate['partylist_id'] == $pl['partylist_id']) ? 'selected' : ''; ?>>
                                 <?= $pl['partylist_name']; ?>
                             </option>
                         <?php endforeach; ?>
                     </select>
+                    <?php if (isset($errors_Update['partylist_id'])): ?>
+                        <p style="color:red;"><?= $errors_Update['partylist_id']; ?></p>
+                    <?php endif; ?>
 
                     <label>Election:</label>
                     <select name="election_id">
                         <?php foreach ($elections as $el): ?>
-                            <option value="<?= $el['election_id']; ?>" <?= ($edit_candidate['election_id'] == $el['election_id']) ? 'selected' : ''; ?>>
+                            <option value="<?= $el['election_id']; ?>" <?= (isset($_POST['election_id']) && isset($_POST['update']) && $_POST['election_id'] == $el['election_id']) || (!isset($_POST['update']) && $edit_candidate['election_id'] == $el['election_id']) ? 'selected' : ''; ?>>
                                 <?= $el['election_name']; ?>
                             </option>
                         <?php endforeach; ?>
                     </select>
+                    <?php if (isset($errors_Update['election_id'])): ?>
+                        <p style="color:red;"><?= $errors_Update['election_id']; ?></p>
+                    <?php endif; ?>
 
                     <button type="submit" name="update">Update Candidate</button>
                 </form>
             </div>
             <?php endif; ?>
         </div>
-
         <div class="content-table">
             <h2>Existing Candidates</h2>
             <table>
@@ -381,13 +439,33 @@ $elections = $pdo->query("SELECT * FROM election_tbl")->fetchAll();
         </footer>
         <script src="admin_dashboard_script.js"></script>
         <script>
-    document.querySelectorAll('.candidate-form select').forEach(select => {
-        select.addEventListener('focus', () => {
-            select.style.transition = 'transform 0.3s';
+        document.querySelectorAll('.candidate-form select').forEach(select => {
+            select.addEventListener('focus', () => {
+                select.style.transition = 'transform 0.3s';
+            });
+            select.addEventListener('blur', () => {
+                select.style.transform = 'rotateX(0deg)';
+            });
         });
-        select.addEventListener('blur', () => {
-            select.style.transform = 'rotateX(0deg)';
+        document.getElementById('preview').style.display = 'block';
+        document.getElementById('candidate_image').addEventListener('change', function(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    document.getElementById('candidateImagePreviewAdd').src = e.target.result;
+                }
+                reader.readAsDataURL(file);
+            }
         });
+        document.addEventListener("DOMContentLoaded", function(){
+        var notif = document.getElementById("notification");
+        if(notif){
+            notif.classList.add("show");
+            setTimeout(function(){
+                notif.classList.remove("show");
+            }, 3000);
+        }
     });
 </script>
 </body>

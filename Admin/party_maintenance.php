@@ -145,6 +145,7 @@ $parties = $stmt->fetchAll();
         <p>&copy; <?= date('Y') ?> Driven By Maverick Studio. All rights reserved.</p>
         <small>Version: <?= SYSTEM_VERSION ?></small>
     </footer>
+    <script src="admin_dashboard_script.js"></script>
 </div>
 </body>
 </html>

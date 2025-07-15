@@ -41,7 +41,7 @@ $positions = $pdo->query("SELECT * FROM position_tbl")->fetchAll();
 <nav class="navbar">
         <div class="nav-left">
             <button class="hamburger" onclick="toggleSidebar()">&#9776;</button>
-            <span class="navbar-title">Party Maintenance</span>
+            <span class="navbar-title">Position Maintenance</span>
         </div>
         <div class="navbar-right">
             <a href="admin_dashboard.php" class="back-to-dashboard">Back to Dashboard</a>
@@ -121,5 +121,6 @@ $positions = $pdo->query("SELECT * FROM position_tbl")->fetchAll();
         <p>&copy; <?= date('Y') ?> Driven By Maverick Studio. All rights reserved.</p>
         <small>Version: <?= SYSTEM_VERSION ?></small>
     </footer>
+    <script src="admin_dashboard_script.js"></script>
 </body>
 </html>

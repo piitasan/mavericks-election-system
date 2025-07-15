@@ -66,6 +66,24 @@ $logs = getRecentRows($pdo, "
     LIMIT 5
 ");
 
+$top_candidates = getRecentRows($pdo, "
+    SELECT c.full_name, p.position_name, COUNT(v.vote_id) AS vote_count
+    FROM vote_tbl v
+    JOIN candidate_tbl c ON v.candidate_id = c.candidate_id
+    JOIN position_tbl p ON c.position_id = p.position_id
+    GROUP BY c.candidate_id, c.full_name, p.position_name
+    ORDER BY vote_count DESC
+    LIMIT 8
+");
+
+$active_election = getRecentRows($pdo, "
+    SELECT election_name, start_date, end_date
+    FROM election_tbl
+    WHERE NOW() BETWEEN start_date AND end_date
+    ORDER BY start_date DESC
+    LIMIT 1
+");
+
 ?>
 
 <!DOCTYPE html>
@@ -136,8 +154,19 @@ $logs = getRecentRows($pdo, "
             </form>
         </div>
     </div>
+    <main class="content">
+        <section class="active-election card">
+            <h2>🗳️ Current Active Election</h2>
+            <?php if (count($active_election) > 0): ?>
+                <?php foreach ($active_election as $e): ?>
+                    <p><strong><?= htmlspecialchars($e['election_name']) ?></strong></p>
+                    <p>🗓️ From <?= htmlspecialchars($e['start_date']) ?> to <?= htmlspecialchars($e['end_date']) ?></p>
+                <?php endforeach; ?>
+            <?php else: ?>
+                <p>No active election at the moment.</p>
+            <?php endif; ?>
+        </section>
 
-        <main class="content">
         <section class="notifications-section card">
         <h2>📢 Notifications</h2>
 
@@ -213,6 +242,15 @@ $logs = getRecentRows($pdo, "
         </div>
         </section>
 
+        <section class="quick-actions-section card">
+            <h2>⚡ Quick Actions</h2>
+            <div class="quick-actions-grid">
+                <a href="party_maintenance.php" class="quick-action-button">➕ Add Partylist</a>
+                <a href="candidate_maintenance.php" class="quick-action-button">➕ Add Candidate</a>
+                <a href="election_report.php" class="quick-action-button">📄 View Reports</a>
+                <a href="download_election_report.php" class="quick-action-button" style="background: green;">⬇️ Export CSV</a>
+            </div>
+        </section>
         <section class="system-logs card">
         <h2>📝 System Logs</h2>
         <ul>
@@ -225,8 +263,23 @@ $logs = getRecentRows($pdo, "
             <?php endif; ?>
         </ul>
         </section>
-    </main>
-
+        <section class="most-voted-candidates card">
+        <h2>🏆 Most Voted Candidates</h2>
+        <ul>
+            <?php if (count($top_candidates) > 0): ?>
+                <?php foreach ($top_candidates as $c): ?>
+                    <li>
+                        <strong><?= htmlspecialchars($c['full_name']) ?></strong> 
+                        (<?= $c['position_name'] ?>) - 
+                        <span class="votes"><?= $c['vote_count'] ?> votes</span>
+                    </li>
+                <?php endforeach; ?>
+            <?php else: ?>
+                <li>No votes recorded yet.</li>
+            <?php endif; ?>
+        </ul>
+    </section>
+        </main>
     <footer class="footer">
         <p>&copy; <?= date('Y') ?> Driven By Maverick Studio. All rights reserved.</p>
         <small>Version: <?= SYSTEM_VERSION ?></small>

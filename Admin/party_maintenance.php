@@ -39,6 +39,9 @@ if (isset($_GET['delete'])) {
     header("Location: party_maintenance.php");
     exit;
 }
+
+$stmt = $pdo->query("SELECT partylist_id, partylist_name FROM partylist_tbl WHERE deleted_at IS NULL ORDER BY partylist_id ASC");
+$parties = $stmt->fetchAll();
 ?>
 
 

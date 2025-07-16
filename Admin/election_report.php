@@ -14,7 +14,7 @@ $candidates = $pdo->query("SELECT c.full_name, p.position_name, pl.partylist_nam
     JOIN partylist_tbl pl ON c.partylist_id = pl.partylist_id
     LEFT JOIN vote_tbl v ON c.candidate_id = v.candidate_id
     GROUP BY c.candidate_id
-    ORDER BY p.position_id")->fetchAll();
+    ORDER BY total_votes DESC")->fetchAll();
 ?>
 
 <!DOCTYPE html>

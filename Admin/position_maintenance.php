@@ -157,5 +157,6 @@ $positions = $pdo->query("SELECT * FROM position_tbl")->fetchAll();
     <p>&copy; <?= date('Y') ?> Driven By Maverick Studio. All rights reserved.</p>
     <small>Version: <?= SYSTEM_VERSION ?></small>
 </footer>
+<script src="admin_dashboard_script.js"></script>
 </body>
 </html>

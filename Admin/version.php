@@ -1,3 +1,3 @@
 <?php
-    define('SYSTEM_VERSION', 'v1.5.51');
+    define('SYSTEM_VERSION', 'v1.5.54');
 ?>

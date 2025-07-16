@@ -180,5 +180,6 @@ $parties = $stmt->fetchAll();
         <small>Version: <?= SYSTEM_VERSION ?></small>
     </footer>
 </div>
+<script src="admin_dashboard_script.js"></script>
 </body>
 </html>

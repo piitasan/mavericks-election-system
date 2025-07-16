@@ -41,6 +41,24 @@ if (isset($_GET['delete'])) {
     exit;
 }
 
+$edit_party = null;
+if (isset($_GET['edit'])) {
+    $id = $_GET['edit'];
+    $stmt = $pdo->prepare("SELECT * FROM partylist_tbl WHERE partylist_id = :id");
+    $stmt->execute(['id' => $id]);
+    $edit_party = $stmt->fetch();
+}
+
+if (isset($_POST['update']) && isset($_POST['partylist_id'])) {
+    $party_id = $_POST['partylist_id'];
+    $party_name = $_POST['partylist_name'];
+    $stmt = $pdo->prepare("UPDATE partylist_tbl SET partylist_name = :party_name WHERE partylist_id = :id");
+    $stmt->execute([
+        'party_name' => $party_name,
+        'id' => $party_id
+    ]);
+}
+
 $stmt = $pdo->query("SELECT partylist_id, partylist_name FROM partylist_tbl WHERE deleted_at IS NULL ORDER BY partylist_id ASC");
 $parties = $stmt->fetchAll();
 ?>
@@ -106,7 +124,8 @@ $parties = $stmt->fetchAll();
 
 
     <main class="content">
-        <div class="forms-container <?= $edit_candidate ? 'split' : ''; ?>">
+    <div class="forms-container <?= $edit_party ? 'split' : ''; ?>">
+
         <div class="form-section">
             <h2 class="center-title">Party Maintenance</h2>
             <form method="POST" class="party-form">
@@ -114,7 +133,24 @@ $parties = $stmt->fetchAll();
                 <input type="text" name="partylist_name" required>
                 <button type="submit" name="add">Add Party</button>
             </form>
-        <div class="content-table">
+        </div>
+
+        <?php if ($edit_party): ?>
+        <div class="form-section edit">
+            <form method="POST" class="party-form">
+                <h2 class="center-title">Edit Party</h2>
+                <input type="hidden" name="partylist_id" value="<?= $edit_party['partylist_id']; ?>">
+                <label>Party Name:</label>
+                <input type="text" name="partylist_name"
+                       value="<?= isset($_POST['partylist_name']) && isset($_POST['update']) ? htmlspecialchars($_POST['partylist_name']) : htmlspecialchars($edit_party['partylist_name']); ?>"
+                       required>
+                <button type="submit" name="update">Update Party</button>
+            </form>
+        </div>
+        <?php endif; ?>
+    </div>
+
+    <div class="content-table">
         <h2 class="left-title">Existing Partylists</h2>
         <table>
             <tr>
@@ -128,24 +164,21 @@ $parties = $stmt->fetchAll();
                     <td><?= $party['partylist_id']; ?></td>
                     <td><?= $party['partylist_name']; ?></td>
                     <td>
-                        <a href="edit_party.php?id=<?= $party['partylist_id']; ?>">Edit</a> |
+                        <a href="party_maintenance.php?edit=<?= $party['partylist_id']; ?>">Edit</a> |
                         <a href="party_maintenance.php?delete=<?= $party['partylist_id']; ?>" onclick="return confirm('Delete this party?')">Delete</a>
                     </td>
                 </tr>
                 <?php endforeach; ?>
             <?php else: ?>
-                <tr>
-                    <td colspan="3">No partylists found.</td>
-                </tr>
+                <tr><td colspan="3">No partylists found.</td></tr>
             <?php endif; ?>
         </table>
     </div>
-    </main>
+</main>
     <footer class="footer">
         <p>&copy; <?= date('Y') ?> Driven By Maverick Studio. All rights reserved.</p>
         <small>Version: <?= SYSTEM_VERSION ?></small>
     </footer>
-    <script src="admin_dashboard_script.js"></script>
 </div>
 </body>
 </html>

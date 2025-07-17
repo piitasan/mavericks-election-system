@@ -9,7 +9,7 @@ A **web-based student election system** enabling secure online voting and effici
 
 ## 🌐 Live Demo
 
-Check out the live site here: [https://mvrcks-elections.wuaze.com/](https://mvrcks-elections.wuaze.com/)
+Check out the live site here: [https://mvrcks-elections.wuaze.com/](https://mvrcks-elections.wuaze.com/) (to be updated)
 
 ---
 

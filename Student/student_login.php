@@ -34,17 +34,27 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <meta charset="UTF-8">
     <title>Student Login</title>
     <link rel="stylesheet" href="student_login_style.css">
+    <style>
+        .error {
+            color: red;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+    </style>
 </head>
 <body>
 <form method="POST">
     <h2>Student Login</h2>
-    <?php if (!empty($error)) echo '<div class="error">' . htmlspecialchars($error) . '</div>'; ?>
+    <?php if (!empty($error)): ?>
+        <div class="error"><?= htmlspecialchars($error); ?></div>
+    <?php endif; ?>
+
     <div class="inputBox">
-        <input type="text" name="student_id" id="student_id" required placeholder=" " value="<?= htmlspecialchars($student_id); ?>">
+        <input type="text" name="student_id" id="student_id" placeholder=" " value="<?= htmlspecialchars($student_id); ?>">
         <label for="student_id">Student ID</label>
     </div>
     <div class="inputBox">
-        <input type="password" name="password" id="password" required placeholder=" ">
+        <input type="password" name="password" id="password" placeholder=" ">
         <label for="password">Password</label>
     </div>
     <button type="submit" name="login">🔐 Login</button>

@@ -32,7 +32,7 @@ if (isset($_GET['delete'])) {
 
         $stmt = $pdo->prepare("DELETE FROM partylist_tbl WHERE partylist_id = :id");
         $stmt->execute(['id' => $id]);
-        
+
         if ($partylist) {
             $action = "Deleted Partylist: " . $partylist['partylist_name'];
             $stmt = $pdo->prepare("INSERT INTO system_logs (admin_id, action) VALUES (?, ?)");
@@ -197,7 +197,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 .then(response => response.json())
                 .then(data => {
                     const count = data.count;
-                    const message = `There ${count === 1 ? 'is' : 'are'} ${count} candidate${count !== 1 ? 's' : ''} under the party "${partyName}".\n\nThis action cannot be undone.\n\nAre you sure you want to delete it?`;
+                    const message = `There ${count === 1 ? 'is' : 'are'} ${count} candidate${count !== 1 ? 's' : ''} under the party "${partyName}".\n\nThe candidate/s will be also removed.\n\nThis action cannot be undone.\n\nAre you sure you want to delete it?`;
 
                     if (confirm(message)) {
                         window.location.href = `party_maintenance.php?delete=${partyId}`;

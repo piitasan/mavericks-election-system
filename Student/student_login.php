@@ -31,111 +31,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Student Login</title>
-<style>
-@import url('https://fonts.googleapis.com/css2?family=Verdana&display=swap');
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: 'Verdana', 'Geneva', 'Tahoma', sans-serif;
-}
-:root {
-    --primary-color: #1E40AF;
-    --primary-dark: #1E3A8A;
-    --background-color: whitesmoke;
-}
-body {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-    background: var(--background-color);
-}
-form {
-    background-color: white;
-    padding: 40px 60px;
-    text-align: center;
-    display: flex;
-    flex-direction: column;
-    border-radius: 16px;
-    box-shadow: 0 0 12px rgba(30, 64, 175, 0.2);
-    width: 320px;
-}
-form h2 {
-    color: var(--primary-color);
-    font-weight: 500;
-    text-transform: uppercase;
-    font-size: 1.5em;
-    letter-spacing: .1em;
-    margin-bottom: 30px;
-}
-.inputBox {
-    position: relative;
-    margin-bottom: 30px;
-}
-.inputBox input {
-    width: 100%;
-    padding: 10px;
-    border: 2px solid #ccc;
-    border-radius: 8px;
-    outline: none;
-    font-size: 1em;
-    background: transparent;
-}
-.inputBox label {
-    position: absolute;
-    top: 10px;
-    left: 15px;
-    pointer-events: none;
-    color: #999;
-    transition: 0.3s ease-in-out;
-    background: white;
-    padding: 0 5px;
-}
-.inputBox input:focus ~ label,
-.inputBox input:not(:placeholder-shown) ~ label {
-    top: -10px;
-    left: 10px;
-    color: var(--primary-color);
-    font-size: 0.85em;
-}
-.inputBox input:focus,
-.inputBox input:valid {
-    border-color: var(--primary-color);
-}
-button[type="submit"] {
-    background: var(--primary-color);
-    border: none;
-    padding: 12px;
-    border-radius: 8px;
-    color: white;
-    font-size: 1em;
-    cursor: pointer;
-    transition: background-color 0.3s;
-    margin-top: 10px;
-}
-button[type="submit"]:hover {
-    background: var(--primary-dark);
-}
-.error {
-    color: red;
-    margin-bottom: 15px;
-    font-size: 0.9em;
-}
-.links {
-    margin-top: 20px;
-    font-size: 0.9em;
-}
-.links a {
-    color: var(--primary-color);
-    text-decoration: none;
-    font-weight: 500;
-    margin: 0 5px;
-}
-</style>
+    <meta charset="UTF-8">
+    <title>Student Login</title>
+    <link rel="stylesheet" href="student_login_style.css">
 </head>
 <body>
 <form method="POST">
@@ -149,7 +47,7 @@ button[type="submit"]:hover {
         <input type="password" name="password" id="password" required placeholder=" ">
         <label for="password">Password</label>
     </div>
-    <button type="submit" name="login">Login</button>
+    <button type="submit" name="login">🔐 Login</button>
     <div class="links">
         <a href="student_registration.php">Register Here</a> |
         <a href="../mavericks_portal.php">Go Back</a>

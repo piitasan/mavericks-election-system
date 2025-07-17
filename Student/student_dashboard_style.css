@@ -1,0 +1,75 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+:root {
+    --primary-color: #1E40AF;
+    --primary-dark: #1E3A8A;
+    --background-color: #F3F4F6;
+    --card-background: #FFFFFF;
+    --shadow: rgba(30, 64, 175, 0.2);
+}
+
+body {
+    background: linear-gradient(to right, #1E3A8A, #1E40AF);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #333;
+    padding: 20px;
+}
+
+.dashboard {
+    background: var(--card-background);
+    padding: 50px 40px;
+    border-radius: 20px;
+    box-shadow: 0 12px 24px var(--shadow);
+    text-align: center;
+    width: 100%;
+    max-width: 400px;
+    animation: fadeIn 0.8s ease-in-out;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.dashboard h2 {
+    color: var(--primary-color);
+    font-size: 2em;
+    margin-bottom: 10px;
+    text-transform: uppercase;
+}
+
+.dashboard .welcome {
+    font-size: 1em;
+    color: #555;
+    margin-bottom: 30px;
+}
+
+.dashboard a.button {
+    display: block;
+    background: var(--primary-color);
+    color: white;
+    padding: 14px;
+    margin: 10px 0;
+    border-radius: 10px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: background 0.3s ease;
+}
+
+.dashboard a.button:hover {
+    background: var(--primary-dark);
+}
+
+.footer {
+    margin-top: 30px;
+    font-size: 0.85em;
+    color: #888;
+}

@@ -30,6 +30,9 @@ if (isset($_GET['delete'])) {
         $stmt = $pdo->prepare("UPDATE partylist_tbl SET deleted_at = NOW() WHERE partylist_id = :id");
         $stmt->execute(['id' => $id]);
 
+        $stmt = $pdo->prepare("DELETE FROM partylist_tbl WHERE partylist_id = :id");
+        $stmt->execute(['id' => $id]);
+        
         if ($partylist) {
             $action = "Deleted Partylist: " . $partylist['partylist_name'];
             $stmt = $pdo->prepare("INSERT INTO system_logs (admin_id, action) VALUES (?, ?)");
@@ -165,7 +168,7 @@ $parties = $stmt->fetchAll();
                     <td><?= $party['partylist_name']; ?></td>
                     <td>
                         <a href="party_maintenance.php?edit=<?= $party['partylist_id']; ?>">Edit</a> |
-                        <a href="party_maintenance.php?delete=<?= $party['partylist_id']; ?>" onclick="return confirm('Delete this party?')">Delete</a>
+                        <a href="#" class="delete-party-btn" data-id="<?= $party['partylist_id']; ?>" data-name="<?= htmlspecialchars($party['partylist_name']) ?>">Delete</a>
                     </td>
                 </tr>
                 <?php endforeach; ?>
@@ -181,5 +184,33 @@ $parties = $stmt->fetchAll();
     </footer>
 </div>
 <script src="admin_dashboard_script.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    document.querySelectorAll('.delete-party-btn').forEach(button => {
+        button.addEventListener('click', function (e) {
+            e.preventDefault();
+
+            const partyId = this.dataset.id;
+            const partyName = this.dataset.name;
+
+            fetch(`get_party_candidate_count.php?partylist_id=${partyId}`)
+                .then(response => response.json())
+                .then(data => {
+                    const count = data.count;
+                    const message = `There ${count === 1 ? 'is' : 'are'} ${count} candidate${count !== 1 ? 's' : ''} under the party "${partyName}".\n\nThis action cannot be undone.\n\nAre you sure you want to delete it?`;
+
+                    if (confirm(message)) {
+                        window.location.href = `party_maintenance.php?delete=${partyId}`;
+                    }
+                })
+                .catch(error => {
+                    alert('Failed to fetch candidate count. Please try again.');
+                    console.error(error);
+                });
+        });
+    });
+});
+</script>
+
 </body>
 </html>

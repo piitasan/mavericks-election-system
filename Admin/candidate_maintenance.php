@@ -191,7 +191,7 @@ $candidates = $pdo->query("
 ")->fetchAll();
 
 $positions = $pdo->query("SELECT * FROM position_tbl")->fetchAll();
-$partylists = $pdo->query("SELECT * FROM partylist_tbl")->fetchAll();
+$partylists = $pdo->query("SELECT * FROM partylist_tbl WHERE deleted_at IS NULL")->fetchAll();
 $elections = $pdo->query("SELECT * FROM election_tbl")->fetchAll();
 
 function addNotification($pdo, $type, $message) {

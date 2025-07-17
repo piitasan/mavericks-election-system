@@ -22,11 +22,27 @@ if (isset($_POST['add_position'])) {
 }
 
 if (isset($_GET['delete'])) {
-    $stmt = $pdo->prepare("DELETE FROM position_tbl WHERE position_id = :pid");
-    $stmt->execute(['pid' => $_GET['delete']]);
+    $position_id = $_GET['delete'];
+    
+    $stmt = $pdo->prepare("SELECT COUNT(*) FROM candidate_tbl WHERE position_id = :pid");
+    $stmt->execute(['pid' => $position_id]);
+    $count = $stmt->fetchColumn();
+
+    if ($count > 0) {
+        $_SESSION['error'] = "Cannot delete position. There are candidates assigned to it.";
+    } else {
+        $stmt = $pdo->prepare("DELETE FROM position_tbl WHERE position_id = :pid");
+        $stmt->execute(['pid' => $position_id]);
+
+        $action = "Deleted Position ID: $position_id";
+        $stmt = $pdo->prepare("INSERT INTO system_logs (admin_id, action) VALUES (?, ?)");
+        $stmt->execute([$_SESSION['admin_id'], $action]);
+    }
+
     header("Location: position_maintenance.php");
     exit;
 }
+
 
 $edit_candidate = null;
 if (isset($_GET['edit'])) {
@@ -110,6 +126,12 @@ $positions = $pdo->query("SELECT * FROM position_tbl")->fetchAll();
 </div>
 
 <main class="content">
+    <?php if (isset($_SESSION['error'])): ?>
+    <div style="color: red; text-align: center; margin-bottom: 10px;">
+            <?= $_SESSION['error']; unset($_SESSION['error']); ?>
+        </div>
+    <?php endif; ?>
+
     <div class="forms-container <?= $edit_candidate ? 'split' : ''; ?>">
         <div class="form-section">
             <h2 class="center-title">Add Position</h2>

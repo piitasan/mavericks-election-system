@@ -7,6 +7,10 @@
 
 A **web-based student election system** enabling secure online voting and efficient election lifecycle management, from partylist and candidate creation to results publication.
 
+## 🌐 Live Demo
+
+Check out the live site here: [https://mvrcks-elections.wuaze.com/](https://mvrcks-elections.wuaze.com/)
+
 ---
 
 ## ✨ **Features**

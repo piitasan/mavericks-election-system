@@ -8,7 +8,7 @@
 html, body {
     height: 100vh;
     overflow: hidden;
-    font-size: 14px; /* Global base font size */
+    font-size: 14px;
 }
 
 :root {
@@ -30,7 +30,6 @@ body {
     overflow-x: hidden;
 }
 
-/* Left side */
 .left-side {
     flex: 1;
     max-width: 45%;
@@ -46,7 +45,6 @@ body {
     text-align: center;
 }
 
-/* Right side */
 .right-side {
     flex: 1;
     max-width: 65%;
@@ -56,7 +54,6 @@ body {
     justify-content: center;
 }
 
-/* Form styling */
 form {
     background-color: #fff;
     padding: 24px 32px;
@@ -82,13 +79,11 @@ form {
     }
 }
 
-/* Input container */
 .inputBox {
     position: relative;
     margin-bottom: 16px;
 }
 
-/* Input and Select */
 .inputBox input,
 .inputBox select {
     width: 100%;
@@ -103,7 +98,6 @@ form {
     background-color: #fff;
 }
 
-/* Label */
 .inputBox label {
     position: absolute;
     top: 8px;
@@ -133,7 +127,6 @@ form {
     border-color: var(--primary-color);
 }
 
-/* Submit button */
 button[type="submit"] {
     background: var(--primary-color);
     color: white;
@@ -151,7 +144,6 @@ button[type="submit"]:hover {
     background: var(--primary-dark);
 }
 
-/* Links section */
 .links {
     margin-top: 15px;
     font-size: 0.85em;
@@ -177,7 +169,6 @@ button[type="submit"]:hover {
     text-decoration: none;
 }
 
-/* Message boxes */
 .error, .success {
     padding: 10px 16px;
     border-radius: 8px;
@@ -197,7 +188,6 @@ button[type="submit"]:hover {
     background-color: #d1e7dd;
 }
 
-/* Responsive layout */
 @media (max-width: 768px) {
     body {
         flex-direction: column;

@@ -27,7 +27,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             exit;
         } else {
             $error = "Invalid admin credentials.";
-            // echo password_hash("admin123", PASSWORD_DEFAULT);
         }
     }
 }

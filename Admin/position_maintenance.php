@@ -8,17 +8,28 @@ if (!isset($_SESSION['admin_id'])) {
     exit;
 }
 
+$error = "";
+
 if (isset($_POST['add_position'])) {
     $position_name = $_POST['position_name'];
-    $stmt = $pdo->prepare("INSERT INTO position_tbl (position_name) VALUES (:position_name)");
+
+    $stmt = $pdo->prepare("SELECT * FROM position_tbl WHERE position_name = :position_name");
     $stmt->execute(['position_name' => $position_name]);
+    $existing_position = $stmt->fetch();
 
-    $action = "Added a New Position: $position_name";
-    $stmt = $pdo->prepare("INSERT INTO system_logs (admin_id, action) VALUES (?, ?)");
-    $stmt->execute([$_SESSION['admin_id'], $action]);
+    if ($existing_position) {
+        $error = "Position name already exists!";
+    } else {
+        $stmt = $pdo->prepare("INSERT INTO position_tbl (position_name) VALUES (:position_name)");
+        $stmt->execute(['position_name' => $position_name]);
 
-    header("Location: position_maintenance.php");
-    exit;
+        $action = "Added a New Position: $position_name";
+        $stmt = $pdo->prepare("INSERT INTO system_logs (admin_id, action) VALUES (?, ?)");
+        $stmt->execute([$_SESSION['admin_id'], $action]);
+
+        header("Location: position_maintenance.php");
+        exit;
+    }
 }
 
 if (isset($_GET['delete'])) {
@@ -42,7 +53,6 @@ if (isset($_GET['delete'])) {
     header("Location: position_maintenance.php");
     exit;
 }
-
 
 $edit_candidate = null;
 if (isset($_GET['edit'])) {
@@ -83,53 +93,13 @@ $positions = $pdo->query("SELECT * FROM position_tbl")->fetchAll();
 </nav>
 
 <div class="sidebar">
-    <ul>
-        <li>
-            <a href="party_maintenance.php">
-                <img src="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/icons/people-fill.svg" alt="Party Icon" />
-                <span>Party Maintenance</span>
-            </a>
-        </li>
-        <li>
-            <a href="position_maintenance.php">
-                <img src="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/icons/diagram-3-fill.svg" alt="Position Icon" />
-                <span>Position Maintenance</span>
-            </a>
-        </li>
-        <li>
-            <a href="candidate_maintenance.php">
-                <img src="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/icons/person-fill.svg" alt="Candidate Icon" />
-                <span>Candidate Maintenance</span>
-            </a>
-        </li>
-        <li>
-            <a href="voter_maintenance.php">
-                <img src="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/icons/check-circle-fill.svg" alt="Voter Icon" />
-                <span>Voter Maintenance</span>
-            </a>
-        </li>
-        <li>
-            <a href="election_report.php">
-                <img src="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/icons/file-earmark-bar-graph-fill.svg" alt="Reports Icon" />
-                <span>Election Report</span>
-            </a>
-        </li>
-    </ul>
-    <div class="clear-db-container">
-        <form action="admin_clear_database.php" method="POST" onsubmit="return confirm('⚠️ Are you sure you want to clear the entire database? This action cannot be undone.')">
-            <button type="submit" class="clear-db-button">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 456 511.82"><path fill="#FD3B3B" d="..."/></svg>
-                Clear Database
-            </button>
-        </form>
-    </div>
 </div>
 
 <main class="content">
     <?php if (isset($_SESSION['error'])): ?>
     <div style="color: red; text-align: center; margin-bottom: 10px;">
-            <?= $_SESSION['error']; unset($_SESSION['error']); ?>
-        </div>
+        <?= $_SESSION['error']; unset($_SESSION['error']); ?>
+    </div>
     <?php endif; ?>
 
     <div class="forms-container <?= $edit_candidate ? 'split' : ''; ?>">
@@ -137,6 +107,9 @@ $positions = $pdo->query("SELECT * FROM position_tbl")->fetchAll();
             <h2 class="center-title">Add Position</h2>
             <form method="POST" class="position-form">
                 <label>Position Name:</label>
+                <?php if (!empty($error)): ?>
+                    <p style="color:red;"><?= htmlspecialchars($error) ?></p>
+                <?php endif; ?>
                 <input type="text" name="position_name" required>
                 <button type="submit" name="add_position">Add Position</button>
             </form>

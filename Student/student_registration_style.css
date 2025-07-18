@@ -1,0 +1,218 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+html, body {
+    height: 100vh;
+    overflow: hidden;
+    font-size: 14px; /* Global base font size */
+}
+
+:root {
+    --primary-color: #1E40AF;
+    --primary-dark: #1E3A8A;
+    --background-color: #F3F4F6;
+    --text-color: #333;
+    --label-color: #999;
+    --border-color: #ccc;
+}
+
+body {
+    background: linear-gradient(to right, var(--primary-dark), var(--primary-color));
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 40px;
+    color: var(--text-color);
+    overflow-x: hidden;
+}
+
+/* Left side */
+.left-side {
+    flex: 1;
+    max-width: 45%;
+    color: white;
+    font-weight: bold;
+    font-size: 1.6em;
+    letter-spacing: 0.05em;
+    padding-right: 20px;
+    animation: fadeIn 0.6s ease-in-out;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-align: center;
+}
+
+/* Right side */
+.right-side {
+    flex: 1;
+    max-width: 65%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Form styling */
+form {
+    background-color: #fff;
+    padding: 24px 32px;
+    border-radius: 16px;
+    box-shadow: 0 8px 16px rgba(30, 64, 175, 0.2);
+    width: 100%;
+    max-width: 420px;
+    display: flex;
+    flex-direction: column;
+    animation: fadeIn 0.6s ease-in-out;
+    color: var(--text-color);
+    max-height: 90vh;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Input container */
+.inputBox {
+    position: relative;
+    margin-bottom: 16px;
+}
+
+/* Input and Select */
+.inputBox input,
+.inputBox select {
+    width: 100%;
+    padding: 8px 10px;
+    font-size: 0.9em;
+    border: 2px solid var(--border-color);
+    border-radius: 6px;
+    background: transparent;
+    outline: none;
+    appearance: none;
+    color: var(--text-color);
+    background-color: #fff;
+}
+
+/* Label */
+.inputBox label {
+    position: absolute;
+    top: 8px;
+    left: 12px;
+    padding: 0 4px;
+    background: white;
+    color: var(--label-color);
+    font-size: 0.9em;
+    pointer-events: none;
+    transition: 0.3s ease;
+}
+
+.inputBox input:focus ~ label,
+.inputBox input:not(:placeholder-shown) ~ label,
+.inputBox select:focus ~ label,
+.inputBox select:valid ~ label {
+    top: -10px;
+    left: 8px;
+    font-size: 0.75em;
+    color: var(--primary-color);
+}
+
+.inputBox input:focus,
+.inputBox input:not(:placeholder-shown),
+.inputBox select:focus,
+.inputBox select:valid {
+    border-color: var(--primary-color);
+}
+
+/* Submit button */
+button[type="submit"] {
+    background: var(--primary-color);
+    color: white;
+    font-size: 0.95em;
+    font-weight: bold;
+    padding: 10px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-top: 5px;
+}
+
+button[type="submit"]:hover {
+    background: var(--primary-dark);
+}
+
+/* Links section */
+.links {
+    margin-top: 15px;
+    font-size: 0.85em;
+    font-weight: 500;
+    text-align: center;
+    width: 100%;
+}
+
+.links a {
+    color: var(--primary-color);
+    text-decoration: none;
+    background-color: white;
+    border-radius: 14px;
+    padding: 6px 14px;
+    display: inline-block;
+    font-weight: 600;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s ease;
+}
+
+.links a:hover {
+    background: #e5e5e5;
+    text-decoration: none;
+}
+
+/* Message boxes */
+.error, .success {
+    padding: 10px 16px;
+    border-radius: 8px;
+    margin-bottom: 16px;
+    font-weight: 600;
+    text-align: center;
+    font-size: 0.9em;
+}
+
+.error {
+    color: #e03e2f;
+    background-color: #f9d6d5;
+}
+
+.success {
+    color: #0f5132;
+    background-color: #d1e7dd;
+}
+
+/* Responsive layout */
+@media (max-width: 768px) {
+    body {
+        flex-direction: column;
+        padding: 20px;
+        gap: 20px;
+    }
+
+    .left-side,
+    .right-side {
+        max-width: 100%;
+        text-align: center;
+    }
+
+    form {
+        max-width: 100%;
+        padding: 20px;
+    }
+}

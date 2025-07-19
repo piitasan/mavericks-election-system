@@ -796,3 +796,101 @@ body {
         transform: translateY(0);
     }
 }
+
+@media (max-width: 768px) {
+    .sidebar {
+        position: fixed;
+        width: 60px;
+    }
+
+    .sidebar ul li a span,
+    .clear-db-container,
+    .sidebar-version {
+        display: none;
+    }
+
+    .content {
+        margin-left: 60px;
+        padding: 10px;
+        grid-template-columns: 1fr;
+        grid-template-areas:
+            "active"
+            "notifications"
+            "summary"
+            "logs";
+    }
+
+    .dashboard-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .footer {
+        width: calc(100% - 60px);
+        margin-left: 60px;
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .summary-grid {
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    }
+
+    .quick-actions-grid {
+        flex-direction: column;
+        align-items: stretch;
+    }
+}
+
+@media (min-width: 769px) and (max-width: 1023px) {
+    .sidebar {
+        width: 100px;
+    }
+
+    .sidebar ul li a span,
+    .clear-db-container,
+    .sidebar-version {
+        display: none;
+    }
+
+    .content {
+        margin-left: 100px;
+        padding: 10px;
+        grid-template-columns: 1fr 1fr;
+        grid-template-areas:
+            "active elections"
+            "notifications summary"
+            "logs logs";
+    }
+
+    .footer {
+        width: calc(100% - 100px);
+        margin-left: 100px;
+    }
+
+    .summary-grid {
+        grid-template-columns: repeat(auto-fit, minmax(175px, 1fr));
+    }
+}
+
+@media (max-width: 768px), (min-width: 769px) and (max-width: 1023px) {
+    .footer {
+        position: relative;
+        margin-left: 0;
+        width: 100%;
+        padding: 20px;
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .content {
+        margin-left: 0;
+        padding-bottom: 100px; 
+    }
+
+    .sidebar {
+        position: fixed;
+        top: 50px;
+        left: 0;
+        height: calc(100% - 50px);
+    }
+}

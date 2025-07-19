@@ -66,3 +66,37 @@ button:hover {
 .links a:hover {
     text-decoration: underline;
 }
+
+@media (max-width: 768px) {
+    .login-container {
+        margin: 40px 20px;
+        padding: 25px 20px;
+        width: auto;
+    }
+
+    input[type="text"],
+    input[type="password"] {
+        font-size: 1rem;
+    }
+
+    h2 {
+        font-size: 1.4rem;
+    }
+}
+
+@media (min-width: 769px) and (max-width: 1023px) {
+    .login-container {
+        margin: 60px auto;
+        padding: 30px 25px;
+        max-width: 90%;
+    }
+
+    h2 {
+        font-size: 1.6rem;
+    }
+
+    input[type="text"],
+    input[type="password"] {
+        font-size: 1rem;
+    }
+}

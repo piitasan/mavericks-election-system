@@ -11,7 +11,8 @@ body, html {
     background-size: 400% 400%;
     animation: gradientBG 5s ease infinite;
     color: white;
-    overflow: hidden;
+    overflow-x: hidden;
+    overflow-y: auto;
 }
 
 .container {
@@ -291,79 +292,12 @@ body, html {
     50% { opacity: 0; }
 }
 
-@media (max-width: 1024px) {
-    .container {
-        flex-direction: column;
-    }
 
-    .left,
-    .right {
-        width: 100%;
-        height: auto;
-        padding: 20px;
-    }
-
-    .left {
-        min-height: 300px;
-        background-attachment: scroll;
-    }
-
-    .typewriter h1 {
-        font-size: 2rem;
-        text-align: center;
-    }
-
-    .right {
-        border-left: none;
-        border-top: 1px solid rgba(255, 255, 255, 0.2);
-        border-radius: 0;
-        box-shadow: none;
-    }
-
-    .logo {
-        width: 160px;
-        height: 160px;
-    }
-
-    .tagline {
-        margin-top: 10px;
-        margin-bottom: 20px;
-        font-size: 0.9rem;
-    }
-
-    .login-content {
-        padding: 1.5rem;
-    }
-
-    .btn {
-        font-size: 0.9rem;
-    }
-
-    footer {
-        position: relative;
-        margin-top: 30px;
-    }
-}
-
-@media (max-width: 600px) {
-    .typewriter h1 {
-        font-size: 1.5rem;
-        max-width: 90%;
-    }
-
-    .btn {
-        padding: 10px;
-    }
-
-    .logo {
-        width: 128px;
-        height: 128px;
-    }
-}
 
 @media screen and (max-width: 768px) {
     .container {
         flex-direction: column;
+        height: auto; 
     }
 
     .left, .right {
@@ -373,19 +307,30 @@ body, html {
         border-radius: 0;
     }
 
+    .left {
+        min-height: 250px;
+        background-attachment: scroll;
+    }
+
     .right {
         padding: 20px;
+        border-top: 1px solid rgba(255, 255, 255, 0.2);
+        box-shadow: none;
+        background: rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(10px);
+        overflow-y: auto;
+        max-height: 100%;
     }
 
     .logo {
-        width: 180px;
-        height: 180px;
+        width: 150px;
+        height: 150px;
     }
 
     .typewriter h1 {
         font-size: 1.5rem;
-        white-space: normal;
         text-align: center;
+        white-space: normal;
     }
 
     .typewriter {
@@ -394,10 +339,66 @@ body, html {
 
     .prompt {
         font-size: 14px;
+        text-align: center;
+        white-space: normal;
     }
 
     footer {
         font-size: 12px;
         padding: 15px 10px;
+        position: relative;
+        bottom: 0;
+        width: 100%;
+    }
+}
+
+@media screen and (min-width: 769px) and (max-width: 1023px) {
+    .container {
+        flex-direction: column;
+        height: auto;
+    }
+
+    .left,
+    .right {
+        width: 100%;
+        height: auto;
+        border-left: none;
+        border-radius: 0;
+    }
+
+    .left {
+        min-height: 300px;
+        background-attachment: scroll;
+    }
+
+    .right {
+        padding: 30px;
+        border-top: 1px solid rgba(255, 255, 255, 0.2);
+        box-shadow: none;
+        background: rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(10px);
+        overflow-y: auto;
+        max-height: 100%;
+    }
+
+    .logo {
+        width: 180px;
+        height: 180px;
+    }
+
+    .typewriter h1 {
+        font-size: 2rem;
+        text-align: center;
+    }
+
+    .prompt {
+        font-size: 1rem;
+        text-align: center;
+    }
+
+    footer {
+        font-size: 13px;
+        padding: 20px 10px;
+        width: 100%;
     }
 }

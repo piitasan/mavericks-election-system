@@ -156,3 +156,65 @@ input[type="radio"] {
     justify-content: center;
     z-index: 9999;
 }
+
+@media (max-width: 768px) {
+    .container {
+        padding: 20px;
+        border-radius: 10px;
+        width: 100%;
+    }
+
+    h1 {
+        font-size: 1.5em;
+    }
+
+    h2 {
+        font-size: 1.2em;
+    }
+
+    .position-block {
+        padding: 10px;
+    }
+
+    label {
+        font-size: 0.95em;
+    }
+
+    .button-container {
+        gap: 10px;
+    }
+
+    .back-btn, button[type="submit"] {
+        font-size: 0.95em;
+        padding: 12px 0;
+    }
+
+    .error-message,
+    .success-message {
+        font-size: 1em;
+        padding: 15px;
+    }
+}
+
+@media (min-width: 769px) and (max-width: 1023px) {
+    .container {
+        padding: 30px;
+        width: 95%;
+    }
+
+    h1 {
+        font-size: 2em;
+    }
+
+    h2 {
+        font-size: 1.3em;
+    }
+
+    .position-block h2 {
+        font-size: 1.1em;
+    }
+
+    .back-btn, button[type="submit"] {
+        font-size: 0.95em;
+    }
+}

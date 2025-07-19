@@ -104,3 +104,80 @@ tr:hover {
 .back-btn:hover {
     background: var(--primary-dark);
 }
+
+@media (max-width: 768px) {
+    .container {
+        padding: 20px;
+        border-radius: 10px;
+        width: 100%;
+    }
+
+    h1 {
+        font-size: 1.5em;
+    }
+
+    h2 {
+        font-size: 1.2em;
+    }
+
+    table, thead, tbody, th, td, tr {
+        display: block;
+        width: 100%;
+    }
+
+    thead {
+        display: none;
+    }
+
+    tr {
+        margin-bottom: 15px;
+        border-bottom: 2px solid #ccc;
+    }
+
+    td {
+        text-align: right;
+        position: relative;
+        padding-left: 50%;
+    }
+
+    td::before {
+        content: attr(data-label);
+        position: absolute;
+        left: 10px;
+        width: 45%;
+        white-space: nowrap;
+        text-align: left;
+        font-weight: bold;
+        color: #1e3a8a;
+    }
+
+    .back-btn {
+        width: 100%;
+        padding: 12px;
+        font-size: 1em;
+    }
+}
+
+@media (min-width: 769px) and (max-width: 1023px) {
+    .container {
+        padding: 30px;
+        width: 95%;
+    }
+
+    h1 {
+        font-size: 2em;
+    }
+
+    h2 {
+        font-size: 1.4em;
+    }
+
+    th, td {
+        font-size: 0.9em;
+    }
+
+    .back-btn {
+        font-size: 0.95em;
+        padding: 10px 20px;
+    }
+}

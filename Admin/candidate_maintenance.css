@@ -287,6 +287,21 @@ main.content {
     margin-left: 60px;
 }
 
+.action-btn {
+    font-size: 12px;
+    padding: 5px 10px;
+    background-color: #2563eb;
+    border: none;
+    border-radius: 4px;
+    color: white;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.2s ease;
+}
+
+.action-btn:hover {
+    background-color: #1d4ed8;
+}
 
 .clear-db-container,
 .sidebar-version {

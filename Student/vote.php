@@ -81,10 +81,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             </div>
 
         <?php elseif ($already_voted): ?>
-            <div id="preloader">
-                <div class="loader"></div>
-                <p>Loading UniVote...</p>
-            </div>
             <h1>Vote for Candidates</h1>
             <h2><?= htmlspecialchars($election['election_name']); ?></h2>
             <div class="error-message">❌ You have already cast your vote.</div>

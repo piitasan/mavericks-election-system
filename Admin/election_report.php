@@ -27,7 +27,7 @@ $candidates = $pdo->query("SELECT c.full_name, p.position_name, pl.partylist_nam
     <nav class="navbar">
         <div class="nav-left">
             <button class="hamburger" onclick="toggleSidebar()">&#9776;</button>
-            <span class="navbar-title">Party Maintenance</span>
+            <span class="navbar-title">Election Report</span>
         </div>
         <div class="navbar-right">
             <a href="admin_dashboard.php" class="back-to-dashboard">Back to Dashboard</a>

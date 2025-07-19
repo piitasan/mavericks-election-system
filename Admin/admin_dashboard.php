@@ -67,14 +67,20 @@ $logs = getRecentRows($pdo, "
 ");
 
 $top_candidates = getRecentRows($pdo, "
-    SELECT c.full_name, p.partylist_name, COUNT(v.vote_id) AS vote_count
+    SELECT 
+        c.full_name, 
+        p.partylist_name, 
+        pos.position_name,
+        COUNT(v.vote_id) AS vote_count
     FROM vote_tbl v
     JOIN candidate_tbl c ON v.candidate_id = c.candidate_id
     JOIN partylist_tbl p ON c.partylist_id = p.partylist_id
-    GROUP BY c.candidate_id, c.full_name, p.partylist_name
+    JOIN position_tbl pos ON c.position_id = pos.position_id
+    GROUP BY c.candidate_id, c.full_name, p.partylist_name, pos.position_name
     ORDER BY vote_count DESC
     LIMIT 8
 ");
+
 
 $active_election = getRecentRows($pdo, "
     SELECT election_name, start_date, end_date
@@ -106,7 +112,7 @@ $next_election = $pdo->query("
     <div class="loader"></div>
     <p>Loading Admin Dashboard...</p>
     </div>
-    
+
     <nav class="navbar">
     <div class="navbar-left">
         <button class="hamburger" onclick="toggleSidebar()">&#9776;</button>
@@ -286,21 +292,34 @@ $next_election = $pdo->query("
         </ul>
         </section>
         <section class="most-voted-candidates card">
-        <h2>🏆 Most Voted Candidates</h2>
-        <ul>
-            <?php if (count($top_candidates) > 0): ?>
-                <?php foreach ($top_candidates as $c): ?>
-                    <li>
-                        <strong><?= htmlspecialchars($c['full_name']) ?></strong> 
-                        (<?= $c['partylist_name'] ?>) - 
-                        <span class="votes"><?= $c['vote_count'] ?> votes</span>
-                    </li>
-                <?php endforeach; ?>
-            <?php else: ?>
-                <li>No votes recorded yet.</li>
-            <?php endif; ?>
-        </ul>
-    </section>
+            <h2>🏆 Most Voted Candidates</h2>
+            <ul style="list-style: none; padding-left: 0;">
+                <?php if (count($top_candidates) > 0): ?>
+                    <?php foreach ($top_candidates as $i => $c): ?>
+                        <?php
+                            $rank = $i + 1;
+                            $styles = "";
+                            if ($rank === 1) {
+                                $styles = "font-size: 1.10em; font-weight: bold;";
+                            } elseif ($rank === 2) {
+                                $styles = "font-size: 1em; font-weight: 600;";
+                            } elseif ($rank === 3) {
+                                $styles = "font-size: 0.90em;";
+                            } elseif ($rank >= 4 && $rank <= 8) {
+                                $styles = "font-size: 0.75em; color: #888;";
+                            }
+                        ?>
+                        <li style="<?= $styles ?>">
+                            <?= $rank ?>. <?= htmlspecialchars($c['full_name']) ?>
+                            (<?= htmlspecialchars($c['partylist_name']) ?> – <?= htmlspecialchars($c['position_name']) ?>)
+                            – <span class="votes"><?= $c['vote_count'] ?> votes</span>
+                        </li>
+                    <?php endforeach; ?>
+                <?php else: ?>
+                    <li>No votes recorded yet.</li>
+                <?php endif; ?>
+            </ul>
+        </section>
         </main>
     <footer class="footer">
         <p>&copy; <?= date('Y') ?> Driven By Maverick Studio. All rights reserved.</p>

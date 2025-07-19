@@ -32,6 +32,12 @@ $voters = $pdo->query("SELECT * FROM user_tbl WHERE role='student' ORDER BY stud
     <div class="sidebar" id="sidebar">
         <ul>
             <li>
+                <a href="election_maintenance.php">
+                    <img src="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/icons/calendar-event-fill.svg" alt="Election Icon" />
+                    <span>Election Maintenance</span>
+                </a>
+            </li>
+            <li>
                 <a href="party_maintenance.php">
                     <img src="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/icons/people-fill.svg" alt="Party Icon" />
                     <span>Party Maintenance</span>
@@ -96,7 +102,7 @@ $voters = $pdo->query("SELECT * FROM user_tbl WHERE role='student' ORDER BY stud
                         </tr>
                     </thead>
                     <tbody id="voter-table-body">
-                        
+
                     </tbody>
                 </table>
             </div>

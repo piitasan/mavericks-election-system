@@ -4,8 +4,15 @@ require 'db_connect.php';
 $message = '';
 $redirect = false;
 
+// Generate the next valid student ID
+$stmt = $pdo->query("SELECT MAX(CAST(SUBSTRING(student_id, 5, 5) AS UNSIGNED)) AS max_suffix FROM user_tbl WHERE student_id REGEXP '^2025[0-9]{5}$'");
+$result = $stmt->fetch();
+$max_suffix = $result && $result['max_suffix'] !== null ? (int)$result['max_suffix'] : -1;
+$next_suffix = str_pad($max_suffix + 1, 5, '0', STR_PAD_LEFT);
+$generated_student_id = '2025' . $next_suffix;
+
 if (isset($_POST['register'])) {
-    $student_id = trim($_POST['student_id']);
+    $student_id = $generated_student_id;
     $password = $_POST['password'];
     $confirm_password = $_POST['confirm_password'];
     $first_name = trim($_POST['first_name']);
@@ -16,9 +23,7 @@ if (isset($_POST['register'])) {
     $year_level = trim($_POST['year_level']);
     $section = trim($_POST['section']);
 
-    if (!preg_match('/^2025\d{5}$/', $student_id)) {
-        $message = '<div class="error">❌ Student ID must start with 2025 and be followed by 5 digits.</div>';
-    } elseif ($password !== $confirm_password) {
+    if ($password !== $confirm_password) {
         $message = '<div class="error">❌ Passwords do not match.</div>';
     } else {
         $hashed_password = password_hash($password, PASSWORD_DEFAULT);
@@ -49,6 +54,7 @@ if (isset($_POST['register'])) {
 }
 ?>
 
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -69,8 +75,8 @@ if (isset($_POST['register'])) {
         <form method="POST">
 
             <div class="inputBox">
-                <input type="text" name="student_id" required placeholder=" ">
-                <label>Student ID (e.g. 202512345)</label>
+                <input type="text" name="student_id" value="<?= htmlspecialchars($generated_student_id); ?>" readonly>
+                <label>Student ID (Auto-generated)</label>
             </div>
 
             <div class="inputBox">
@@ -111,10 +117,10 @@ if (isset($_POST['register'])) {
             <div class="inputBox">
                 <select name="year_level" required>
                     <option value="" disabled selected hidden></option>
-                    <option value="1">1st Year</option>
-                    <option value="2">2nd Year</option>
-                    <option value="3">3rd Year</option>
-                    <option value="4">4th Year</option>
+                    <option value="1st Year">1st Year</option>
+                    <option value="2nd Year">2nd Year</option>
+                    <option value="3rd Year">3rd Year</option>
+                    <option value="4th Year">4th Year</option>
                 </select>
                 <label>Year Level</label>
             </div>

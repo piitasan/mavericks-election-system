@@ -39,8 +39,8 @@ if (isset($_GET['delete'])) {
         $stmt = $pdo->prepare("UPDATE partylist_tbl SET deleted_at = NOW() WHERE partylist_id = :id");
         $stmt->execute(['id' => $id]);
 
-        $stmt = $pdo->prepare("DELETE FROM partylist_tbl WHERE partylist_id = :id");
-        $stmt->execute(['id' => $id]);
+        // $stmt = $pdo->prepare("DELETE FROM partylist_tbl WHERE partylist_id = :id");
+        // $stmt->execute(['id' => $id]);
 
         if ($partylist) {
             $action = "Deleted Partylist: " . $partylist['partylist_name'];
@@ -94,6 +94,12 @@ $parties = $stmt->fetchAll();
     <div class="sidebar">
         <ul>
             <li>
+                <a href="election_maintenance.php">
+                    <img src="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/icons/calendar-event-fill.svg" alt="Election Icon" />
+                    <span>Election Maintenance</span>
+                </a>
+            </li>
+            <li>
                 <a href="party_maintenance.php">
                     <img src="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/icons/people-fill.svg" alt="Party Icon" />
                     <span>Party Maintenance</span>
@@ -138,7 +144,7 @@ $parties = $stmt->fetchAll();
     <div class="forms-container <?= $edit_party ? 'split' : ''; ?>">
 
         <div class="form-section">
-            <h2 class="center-title">Party Maintenance</h2>
+            <h2 class="center-title">Add New Partylist</h2>
             <form method="POST" class="party-form">
                 <label>Party Name:</label>
                 <?php if (!empty($error)): ?>
@@ -152,7 +158,7 @@ $parties = $stmt->fetchAll();
         <?php if ($edit_party): ?>
         <div class="form-section edit">
             <form method="POST" class="party-form">
-                <h2 class="center-title">Edit Party</h2>
+                <h2 class="center-title">Edit Partylist</h2>
                 <input type="hidden" name="partylist_id" value="<?= $edit_party['partylist_id']; ?>">
                 <label>Party Name:</label>
                 <input type="text" name="partylist_name"

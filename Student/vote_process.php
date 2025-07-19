@@ -2,12 +2,12 @@
 session_start();
 require 'db_connect.php';
 
-if (!isset($_SESSION['user_id'])) {
+if (!isset($_SESSION['student_id'])) {
     header("Location: student_login.php");
     exit;
 }
 
-$user_id = $_SESSION['user_id'];
+$user_id = $_SESSION['student_id'];
 $positions = $pdo->query("SELECT * FROM position_tbl")->fetchAll();
 
 try {

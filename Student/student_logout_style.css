@@ -12,6 +12,26 @@
     --shadow: rgba(30, 64, 175, 0.2);
 }
 
+.loader {
+    width: 40px;
+    height: 40px;
+    border: 4px solid white;
+    border-top: 4px solid transparent;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+#preloader {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    background: #1E40AF;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+}
+
 body {
     background: linear-gradient(to right, #1E3A8A, #1E40AF);
     min-height: 100vh;
@@ -65,3 +85,4 @@ body {
 .card a:hover {
     background: var(--primary-dark);
 }
+

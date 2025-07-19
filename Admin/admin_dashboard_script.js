@@ -28,3 +28,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 });
+
+window.addEventListener("load", () => {
+document.getElementById("preloader").style.display = "none";
+});

@@ -32,7 +32,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Student Login</title>
+    <title>Login to Univote</title>
     <link rel="stylesheet" href="student_login_style.css">
     <style>
         .error {
@@ -43,6 +43,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     </style>
 </head>
 <body>
+    <div id="preloader">
+    <div class="loader"></div>
+    <p>Loading UniVote...</p>
+    </div>
 <form method="POST">
     <h2>Student Login</h2>
     <?php if (!empty($error)): ?>
@@ -60,8 +64,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <button type="submit" name="login">🔐 Login</button>
     <div class="links">
         <a href="student_registration.php">Register Here</a> |
-        <a href="../mavericks_portal.php">Go Back</a>
+        <a href="../univote_portal.php">UniVote Portal</a>
     </div>
 </form>
+<script>
+    window.addEventListener("load", () => {
+    document.getElementById("preloader").style.display = "none";
+});
+</script>
 </body>
 </html>

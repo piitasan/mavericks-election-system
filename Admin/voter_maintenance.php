@@ -96,7 +96,7 @@ $voters = $pdo->query("SELECT * FROM user_tbl WHERE role='student' ORDER BY stud
                         </tr>
                     </thead>
                     <tbody id="voter-table-body">
-                        <!-- Rows will be loaded here dynamically -->
+                        
                     </tbody>
                 </table>
             </div>

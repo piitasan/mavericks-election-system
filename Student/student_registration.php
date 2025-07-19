@@ -52,17 +52,19 @@ if (isset($_POST['register'])) {
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Student Registration</title>
+    <title>Register to Univote</title>
     <link rel="stylesheet" href="student_registration_style.css">
 </head>
 <body>
+    <div id="preloader">
+    <div class="loader"></div>
+    <p>Loading UniVote...</p>
+    </div>
     <div class="left-side">
         <h2>Student Registration</h2>
     <?php if ($message) echo $message; ?>
 </div>
-
     </div>
-
     <div class="right-side">
         <form method="POST">
 
@@ -137,6 +139,11 @@ if (isset($_POST['register'])) {
     }, 5000);
     </script>
 <?php endif; ?>
+<script>
+    window.addEventListener("load", () => {
+    document.getElementById("preloader").style.display = "none";
+});
+</script>
 </body>
 
 </html>

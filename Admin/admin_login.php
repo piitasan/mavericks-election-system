@@ -19,7 +19,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         if ($admin && password_verify($password, $admin['password'])) {
             $_SESSION['admin_id'] = $admin['user_id'];
 
-            $action = "Admin logged in!";
+            $action = "Admin logged in";
             $stmtLog = $pdo->prepare("INSERT INTO system_logs (admin_id, action) VALUES (?, ?)");
             $stmtLog->execute([$_SESSION['admin_id'], $action]);
 
@@ -35,25 +35,45 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Admin Login</title>
-    <link rel="stylesheet" type="text/css" href="admin_style.css">
+    <title>UniVote Authorized Personnel</title>
+    <link rel="stylesheet" href="admin_style.css?v=<?= time(); ?>">
+    <style>
+        .error {
+            color: red;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+    </style>
 </head>
 <body>
-    <div class="login-container">
-        <h2>Admin Login</h2>
-        <?php if (!empty($error)) echo "<div class='error'>$error</div>"; ?>
-        <form method="POST">
-            <label for="username">Username</label>
-            <input type="text" name="username" id="username" value="<?= htmlspecialchars($username); ?>">
-
-            <label for="password">Password</label>
-            <input type="password" name="password" id="password">
-
-            <button type="submit" name="login">Login</button>
-        </form>
-        <div class="links">
-            <a href="../mavericks_portal.php">Go Back</a>
-        </div>
+    <div id="preloader">
+    <div class="loader"></div>
+    <p>Loading UniVote...</p>
     </div>
+
+    <form method="POST">
+        <h2>Admin Login</h2>
+        <?php if (!empty($error)): ?>
+            <div class="error"><?= htmlspecialchars($error); ?></div>
+        <?php endif; ?>
+
+        <div class="inputBox">
+            <input type="text" name="username" id="username" placeholder= " " value="<?= htmlspecialchars($username); ?>">
+            <label for="username">Admin Username</label>
+        </div>
+        <div class="inputBox">
+            <input type="password" name="password" id="password" placeholder=" ">
+            <label for="password">Admin Password</label>
+        </div>
+        <button type="submit" name="login">🔐 Login</button>
+        <div class="links">
+            <a href="../univote_portal.php">UniVote Portal</a>
+        </div>
+    </form>
+<script>
+    window.addEventListener("load", () => {
+    document.getElementById("preloader").style.display = "none";
+});
+</script>
 </body>
 </html>

@@ -84,6 +84,13 @@ $active_election = getRecentRows($pdo, "
     LIMIT 1
 ");
 
+$next_election = $pdo->query("
+    SELECT * FROM election_tbl 
+    WHERE start_date > NOW() 
+    ORDER BY start_date ASC 
+    LIMIT 1
+")->fetch();
+
 ?>
 
 <!DOCTYPE html>
@@ -95,6 +102,11 @@ $active_election = getRecentRows($pdo, "
     <link rel="stylesheet" href="admin_dashboard_style.css"/>
 </head>
 <body>
+    <div id="preloader">
+    <div class="loader"></div>
+    <p>Loading Admin Dashboard...</p>
+    </div>
+    
     <nav class="navbar">
     <div class="navbar-left">
         <button class="hamburger" onclick="toggleSidebar()">&#9776;</button>
@@ -118,6 +130,12 @@ $active_election = getRecentRows($pdo, "
 
     <div class="sidebar">
         <ul>
+            <li>
+                <a href="election_maintenance.php">
+                    <img src="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/icons/calendar-event-fill.svg" alt="Election Icon" />
+                    <span>Election Maintenance</span>
+                </a>
+            </li>
             <li>
                 <a href="party_maintenance.php">
                     <img src="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/icons/people-fill.svg" alt="Party Icon" />

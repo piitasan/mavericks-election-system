@@ -14,7 +14,6 @@ ORDER BY p.position_id, total_votes DESC
 $stmt = $pdo->query($sql);
 $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-// Group by position
 $grouped = [];
 foreach ($results as $row) {
     $grouped[$row['position_name']][] = $row;
@@ -25,7 +24,7 @@ foreach ($results as $row) {
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Candidate List</title>
+    <title>UniVote Student Candidate</title>
     <link rel="stylesheet" href="view_result_style.css">
 </head>
 <body>

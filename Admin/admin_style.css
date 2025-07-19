@@ -1,69 +1,142 @@
-/* Admin Style CSS for Login Page */
-body {
-    font-family: Arial, sans-serif;
-    background: #f3f4f6;
+* {
     margin: 0;
     padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;}
+
+:root {
+    --primary-color: #1E40AF;
+    --primary-dark: #1E3A8A;
+    --background-color: #F3F4F6;
 }
 
-.login-container {
-    max-width: 400px;
-    margin: 80px auto;
-    background: white;
-    padding: 30px;
-    border-radius: 8px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+body {
+    background: linear-gradient(to right, #1E3A8A, #1E40AF);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    color: #333;
+}
+
+form {
+    background-color: white;
+    padding: 40px 60px;
     text-align: center;
+    display: flex;
+    flex-direction: column;
+    border-radius: 20px;
+    box-shadow: 0 12px 24px rgba(30, 64, 175, 0.2);
+    width: 100%;
+    max-width: 360px;
+    animation: fadeIn 0.6s ease-in-out;
 }
 
-h2 {
-    margin-bottom: 20px;
-    color: #1e40af;
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
 }
 
-label {
-    display: block;
-    text-align: left;
-    margin-bottom: 5px;
+form h2 {
+    color: var(--primary-color);
+    font-weight: bold;
+    text-transform: uppercase;
+    font-size: 1.8em;
+    letter-spacing: .1em;
+    margin-bottom: 30px;
+}
+
+.inputBox {
+    position: relative;
+    margin-bottom: 30px;
+}
+
+.inputBox input {
+    width: 100%;
+    padding: 12px;
+    border: 2px solid #ccc;
+    border-radius: 10px;
+    outline: none;
+    font-size: 1em;
+    background: transparent;
+}
+
+.inputBox label {
+    position: absolute;
+    top: 12px;
+    left: 15px;
+    pointer-events: none;
+    color: #999;
+    transition: 0.3s ease-in-out;
+    background: white;
+    padding: 0 5px;
+}
+
+.inputBox input:focus ~ label,
+.inputBox input:not(:placeholder-shown) ~ label {
+    top: -10px;
+    left: 10px;
+    color: var(--primary-color);
+    font-size: 0.85em;
+}
+
+.inputBox input:focus,
+.inputBox input:valid {
+    border-color: var(--primary-color);
+}
+
+button[type="submit"] {
+    background: var(--primary-color);
+    border: none;
+    padding: 14px;
+    border-radius: 10px;
+    color: white;
+    font-size: 1em;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    margin-top: 10px;
     font-weight: bold;
 }
 
-input[type="text"],
-input[type="password"] {
-    width: 100%;
-    padding: 8px;
-    margin-bottom: 15px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-}
-
-button {
-    background: #1e40af;
-    color: white;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-}
-
-button:hover {
-    background: #3749b1;
+button[type="submit"]:hover {
+    background: var(--primary-dark);
 }
 
 .error {
     color: red;
     margin-bottom: 15px;
+    font-size: 0.9em;
 }
 
 .links {
-    margin-top: 15px;
+    margin-top: 20px;
+    font-size: 0.9em;
 }
 
 .links a {
-    color: #1e40af;
+    color: var(--primary-color);
     text-decoration: none;
+    font-weight: 500;
+    margin: 0 5px;
 }
 
-.links a:hover {
-    text-decoration: underline;
+.loader {
+    width: 40px;
+    height: 40px;
+    border: 4px solid white;
+    border-top: 4px solid transparent;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+#preloader {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    background: #1E40AF;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
 }

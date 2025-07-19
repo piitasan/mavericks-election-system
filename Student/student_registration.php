@@ -4,7 +4,6 @@ require 'db_connect.php';
 $message = '';
 $redirect = false;
 
-// Generate the next valid student ID
 $stmt = $pdo->query("SELECT MAX(CAST(SUBSTRING(student_id, 5, 5) AS UNSIGNED)) AS max_suffix FROM user_tbl WHERE student_id REGEXP '^2025[0-9]{5}$'");
 $result = $stmt->fetch();
 $max_suffix = $result && $result['max_suffix'] !== null ? (int)$result['max_suffix'] : -1;
@@ -45,7 +44,7 @@ if (isset($_POST['register'])) {
         ]);
 
         if ($success) {
-            $message = '<div class="success">✅ Registered successfully. Redirecting...</div>';
+            $message = '<div class="success">✅ Registered successfully. Please use your <strong>Student ID</strong> to login...</div>';
             $redirect = true;
         } else {
             $message = '<div class="error">❌ Registration failed, please try again.</div>';

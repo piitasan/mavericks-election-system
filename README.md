@@ -5,7 +5,7 @@
 [![Bootstrap](https://img.shields.io/badge/Bootstrap-5.x-purple?logo=bootstrap)](https://getbootstrap.com/)
 [![License](https://img.shields.io/badge/License-Academic-lightgrey)](#license)
 
-A **web-based student election system** enabling secure online voting and efficient election lifecycle management, from partylist and candidate creation to results publication.
+A **web-based student election system** enabling secure online voting and efficient election lifecycle management, from partylist and candidate creation to real-time results publication.
 
 ## 🌐 Live Demo
 

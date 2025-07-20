@@ -91,6 +91,7 @@ mavericks-election-system-main
 │
 ├── Admin
 │   │   └── dbImageUploads
+│   │   │   └── default_candidate_image.jpg
 │   ├── admin_clear_database.php
 │   ├── admin_dashboard.php
 │   ├── admin_dashboard_script.js
@@ -98,6 +99,7 @@ mavericks-election-system-main
 │   ├── admin_login.php
 │   ├── admin_style.css
 │   ├── admin_tasks.php
+│   ├── candidate_maintenance.js
 │   ├── candidate_maintenance.css
 │   ├── candidate_maintenance.php
 │   ├── db_connect.php
@@ -105,13 +107,20 @@ mavericks-election-system-main
 │   ├── edit_candidate.php
 │   ├── edit_party.php
 │   ├── edit_position.php
+│   ├── election_maintenance.css
+│   ├── election_maintenance.php
+│   ├── election_report.css
 │   ├── election_report.php
+│   ├── fetch_voters.php
+│   ├── get_party_candidate_count.php
 │   ├── logout.php
 │   ├── party_maintenance.css
 │   ├── party_maintenance.php
+│   ├── position_maintenance.css
 │   ├── position_maintenance.php
 │   ├── version.php
 │   ├── view_voter.php
+│   ├── voter_maintenance.css
 │   └── voter_maintenance.php
 │
 ├── Student

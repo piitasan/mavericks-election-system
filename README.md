@@ -117,18 +117,27 @@ mavericks-election-system-main
 ├── Student
 │   ├── db_connect.php
 │   ├── logout.php
+│   ├── student_dashboard_styles.css
 │   ├── student_dashboard.php
+│   ├── student_login_styles.css
 │   ├── student_login.php
+│   ├── student_logout.php
+│   ├── student_logout_style.css
+│   ├── student_registration_styles.css
 │   ├── student_registration.php
 │   ├── student_style.css
+│   ├── view_result_styles.css
 │   ├── view_result.php
+│   ├── vote.css
 │   ├── vote.php
 │   └── vote_process.php
 │
 ├── Database
 │   └── db_maverick_studio.sql
 │
-├── mavericks_portal.php
+├── README.md
+├── univote_portal.php
+├── portal_script.js
 └── portal_style.css
 ```
 

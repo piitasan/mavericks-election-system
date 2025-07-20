@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 19, 2025 at 01:40 PM
+-- Generation Time: Jul 20, 2025 at 11:30 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -425,7 +425,15 @@ INSERT INTO `system_logs` (`log_id`, `admin_id`, `action`, `created_at`) VALUES
 (198, 1, 'Admin logged out', '2025-07-19 11:27:06'),
 (199, 1, 'Admin logged in', '2025-07-19 11:28:41'),
 (200, 1, 'Admin logged out', '2025-07-19 11:38:19'),
-(201, 1, 'Admin logged in', '2025-07-19 11:38:27');
+(201, 1, 'Admin logged in', '2025-07-19 11:38:27'),
+(202, 1, 'Admin logged out', '2025-07-19 12:03:23'),
+(203, 1, 'Admin logged in', '2025-07-19 12:08:13'),
+(204, 1, 'Admin logged out', '2025-07-19 12:20:02'),
+(205, 1, 'Admin logged in', '2025-07-19 12:42:56'),
+(206, 1, 'Admin logged out', '2025-07-19 12:49:05'),
+(207, 1, 'Admin logged in', '2025-07-19 12:49:19'),
+(208, 1, 'Admin logged in', '2025-07-19 16:52:04'),
+(209, 1, 'Admin logged in', '2025-07-19 17:07:28');
 
 -- --------------------------------------------------------
 
@@ -494,7 +502,8 @@ INSERT INTO `user_tbl` (`user_id`, `username`, `student_id`, `first_name`, `midd
 (23, NULL, '202500021', 'Luisa', 'W', 'Bautista', NULL, 'XX60', 'BSMA', '4th Year', '$2y$10$hnnDQ5ybtWNgDItRGokoz.t.aKOpna7LT8.xbpsWKM7uufn7XaJsW', 'student', '2025-07-19 10:14:35', NULL),
 (24, NULL, '202500022', 'Final', 'T', 'Test', 'Sr.', 'TX21', 'BSIT', '1st Year', '$2y$10$NHEqFPyWG1GdDsYoK9R.Bu5.CaKeauoeDtl2ZpksYsqVIt3TQaERK', 'student', '2025-07-19 11:07:08', NULL),
 (25, NULL, '202500023', 'Student 1', 'R', 'Government', 'Jr.', 'AB01', 'BSIT', '3rd Year', '$2y$10$9LCukFPaHgorPA1erPJhve11gyz2Wk3n2fae5Vbi62wBHafXi1pBK', 'student', '2025-07-19 11:27:23', NULL),
-(26, NULL, '202500024', 'Student 3', 'B', 'Government', 'Jr.', 'TS01', 'BSBA', '2nd Year', '$2y$10$EmzVLhhOTCeF.bXCzyXg2uqL6SSseWmyyuJRH4vXT0QiLH19./pGS', 'student', '2025-07-19 11:28:10', NULL);
+(26, NULL, '202500024', 'Student 3', 'B', 'Government', 'Jr.', 'TS01', 'BSBA', '2nd Year', '$2y$10$EmzVLhhOTCeF.bXCzyXg2uqL6SSseWmyyuJRH4vXT0QiLH19./pGS', 'student', '2025-07-19 11:28:10', NULL),
+(27, NULL, '202500025', 'Student 32', 'R', 'Dev', 'Jr.', 'CD21', 'BSCS', '2nd Year', '$2y$10$vxuZsefAuhHyCVcoPKzR5.UkfflSTf5TSzrVN1k8QyHb5sVSu3lAO', 'student', '2025-07-19 17:04:58', NULL);
 
 -- --------------------------------------------------------
 
@@ -690,7 +699,14 @@ INSERT INTO `vote_tbl` (`vote_id`, `user_id`, `candidate_id`, `vote_date`, `posi
 (172, 26, 18, '2025-07-19 11:28:31', NULL, '2025-07-19 11:28:31'),
 (173, 26, 19, '2025-07-19 11:28:31', NULL, '2025-07-19 11:28:31'),
 (174, 26, 20, '2025-07-19 11:28:31', NULL, '2025-07-19 11:28:31'),
-(175, 26, 21, '2025-07-19 11:28:31', NULL, '2025-07-19 11:28:31');
+(175, 26, 21, '2025-07-19 11:28:31', NULL, '2025-07-19 11:28:31'),
+(176, 27, 8, '2025-07-19 17:05:55', NULL, '2025-07-19 17:05:55'),
+(177, 27, 9, '2025-07-19 17:05:55', NULL, '2025-07-19 17:05:55'),
+(178, 27, 38, '2025-07-19 17:05:55', NULL, '2025-07-19 17:05:55'),
+(179, 27, 32, '2025-07-19 17:05:55', NULL, '2025-07-19 17:05:55'),
+(180, 27, 40, '2025-07-19 17:05:55', NULL, '2025-07-19 17:05:55'),
+(181, 27, 13, '2025-07-19 17:05:55', NULL, '2025-07-19 17:05:55'),
+(182, 27, 14, '2025-07-19 17:05:55', NULL, '2025-07-19 17:05:55');
 
 --
 -- Indexes for dumped tables
@@ -796,7 +812,7 @@ ALTER TABLE `position_tbl`
 -- AUTO_INCREMENT for table `system_logs`
 --
 ALTER TABLE `system_logs`
-  MODIFY `log_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=202;
+  MODIFY `log_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=210;
 
 --
 -- AUTO_INCREMENT for table `user_tasks`
@@ -808,13 +824,13 @@ ALTER TABLE `user_tasks`
 -- AUTO_INCREMENT for table `user_tbl`
 --
 ALTER TABLE `user_tbl`
-  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
+  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
 
 --
 -- AUTO_INCREMENT for table `vote_tbl`
 --
 ALTER TABLE `vote_tbl`
-  MODIFY `vote_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=176;
+  MODIFY `vote_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=183;
 
 --
 -- Constraints for dumped tables

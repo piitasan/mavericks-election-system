@@ -4,6 +4,18 @@ if (!isset($_SESSION['student_id'])) {
     header("Location: student_login.php");
     exit;
 }
+
+$timeout_duration = 5; // 15 minutes
+
+if (isset($_SESSION['LAST_ACTIVITY']) && (time() - $_SESSION['LAST_ACTIVITY']) > $timeout_duration) {
+    session_unset();
+    session_destroy();
+    header("Location: student_login.php?timeout=1");
+    exit;
+}
+
+$_SESSION['LAST_ACTIVITY'] = time(); 
+
 $student_id = $_SESSION['student_id'];
 ?>
 

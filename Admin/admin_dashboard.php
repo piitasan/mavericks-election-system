@@ -8,6 +8,19 @@ if (!isset($_SESSION['admin_id'])) {
     exit;
 }
 
+$timeout_duration = 300;
+
+if (isset($_SESSION['LAST_ACTIVITY']) && (time() - $_SESSION['LAST_ACTIVITY']) > $timeout_duration) {
+    session_unset();
+    session_destroy();
+    header("Location: student_login.php?timeout=1");
+    exit;
+}
+
+$_SESSION['LAST_ACTIVITY'] = time(); 
+
+$admin_id = $_SESSION['admin_id'];
+
 function getRecentRows($pdo, $sql) {
     return $pdo->query($sql)->fetchAll();
 }

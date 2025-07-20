@@ -17,7 +17,7 @@ Check out the live site here: [https://mvrcks-elections.wuaze.com/](https://mvrc
 
 ### 🧑‍🎓 **User Features**
 - Secure user registration and login
-- View available elections and candidates
+- View available candidates
 - Cast votes for preferred candidates
 - View election results after voting closes
 
@@ -25,7 +25,7 @@ Check out the live site here: [https://mvrcks-elections.wuaze.com/](https://mvrc
 - Secure admin authentication
 - Create and manage elections
 - Add, edit, or delete candidates, positions, and parties
-- View and publish election results
+- View real-time results
 - Generate and download election reports
 - Clear database for system resets
 

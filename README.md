@@ -47,6 +47,7 @@ Check out the live site here: [https://mvrcks-elections.wuaze.com/](https://mvrc
 - **Backend:** PHP (Procedural/PDO)
 - **Database:** MySQL (via phpMyAdmin)
 - **Server:** XAMPP (Apache, MySQL)
+- **Host:** InfinityFree (wuaze domain)
 
 ---
 
@@ -67,12 +68,12 @@ git clone https://github.com/piitasan/mavericks-election-system.git
 
 4. **Run the project**
     - Start **XAMPP Apache and MySQL**
-    - Navigate to `http://localhost/mavericks-election-system-main` in your browser
+    - Navigate to `http://localhost/mavericks-election-system` in your browser
     - **❗NOTE❗** its directory structure should be like this:
     - ```
       ├── xampp
       │   ├── htdocs
-      │   │   ├── mavericks-election-system-main
+      │   │   ├── mavericks-election-system
       ```
 
 ## 🔑 Default Admin Credentials

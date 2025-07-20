@@ -17,7 +17,7 @@ Check out the live site here: [https://mvrcks-elections.wuaze.com/](https://mvrc
 
 ### 🧑‍🎓 **User Features**
 - Secure user registration and login
-- View available elections and candidates
+- View available candidates
 - Cast votes for preferred candidates
 - View election results after voting closes
 

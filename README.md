@@ -2,7 +2,6 @@
 
 [![PHP](https://img.shields.io/badge/PHP-7.4%2B-blue?logo=php)](https://www.php.net/)
 [![MySQL](https://img.shields.io/badge/MySQL-5.7%2B-orange?logo=mysql)](https://www.mysql.com/)
-[![Bootstrap](https://img.shields.io/badge/Bootstrap-5.x-purple?logo=bootstrap)](https://getbootstrap.com/)
 [![License](https://img.shields.io/badge/License-Academic-lightgrey)](#license)
 
 A **web-based student election system** enabling secure online voting and efficient election lifecycle management, from partylist and candidate creation to real-time results publication.
